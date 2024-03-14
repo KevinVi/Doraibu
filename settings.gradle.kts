@@ -1,4 +1,5 @@
 pluginManagement {
+	includeBuild("build-logic")
 	repositories {
 		google()
 		mavenCentral()
@@ -15,4 +16,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "Doraibu"
 include(":app")
- 
+include(":core")
+include(":feature")
+include(":feature:scan")
+include(":core:ui")
+include(":core:data")
+include(":core:common")

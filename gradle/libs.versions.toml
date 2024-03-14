@@ -1,0 +1,88 @@
+[versions]
+activity-compose = "1.8.2"
+compose = "1.6.2"
+compose-bom = "2024.02.01"
+composeCompiler = "1.5.10"
+compose-material3 = "1.2.0"
+core-ktx = "1.12.0"
+gradle-plugin = "8.3.0"
+hilt = "2.50"
+hilt-androidx = "1.2.0"
+hiltExt = "1.2.0"
+kotlin = "1.9.22"
+ktlint = "1.0.1"
+ktor = "2.3.8"
+ksp = "1.9.22-1.0.16" # "1.9.10-1.0.13" https://github.com/google/ksp/issues/1590
+lifecycle = "2.7.0"
+navigation = "2.7.7"
+room = "2.6.1"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+androidx-compose-material-icon-core = { module = "androidx.compose.material:material-icons-core", version.ref = "compose" }
+androidx-compose-material-icon-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-androidx" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-androidx" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hilt-androidx" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewModel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-ext-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltExt" }
+hilt-ext-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltExt" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-serialization-kotlinx-xml = { module = "io.ktor:ktor-serialization-kotlinx-xml", version.ref = "ktor" }
+
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle-plugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+
+[bundles]
+ktor = [
+    "ktor-client-android",
+    "ktor-client-content-negotiation",
+    "ktor-client-core",
+    "ktor-client-logging",
+    "ktor-serialization-kotlinx-json",
+    "ktor-serialization-kotlinx-xml",
+]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "gradle-plugin" }
+androidx-room = { id = "androidx.room", version.ref = "room" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
+
+# Build-logic Plugins
+doraibu-android-application = { id = "jetpack.android.application", version = "unspecified" }
+doraibu-android-application-compose = { id = "jetpack.android.application.compose", version = "unspecified" }
+doraibu-android-feature = { id = "jetpack.android.feature", version = "unspecified" }
+doraibu-android-feature-compose = { id = "jetpack.android.feature.compose", version = "unspecified" }
+doraibu-android-hilt = { id = "jetpack.android.hilt", version = "unspecified" }
+doraibu-android-library = { id = "jetpack.android.library", version = "unspecified" }
+doraibu-android-library-compose = { id = "jetpack.android.library.compose", version = "unspecified" }
+doraibu-android-lint = { id = "jetpack.android.lint", version = "unspecified" }
+doraibu-androidx-room = { id = "jetpack.androidx.room", version = "unspecified" }
