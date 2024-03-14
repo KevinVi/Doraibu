@@ -5,6 +5,7 @@ compose-bom = "2024.02.01"
 composeCompiler = "1.5.10"
 compose-material3 = "1.2.0"
 core-ktx = "1.12.0"
+desugar-jdk-libs = "2.0.4"
 gradle-plugin = "8.3.0"
 hilt = "2.50"
 hilt-androidx = "1.2.0"
@@ -28,6 +29,7 @@ androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-mani
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-androidx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-androidx" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hilt-androidx" }
@@ -77,12 +79,12 @@ google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
 
 # Build-logic Plugins
-doraibu-android-application = { id = "jetpack.android.application", version = "unspecified" }
-doraibu-android-application-compose = { id = "jetpack.android.application.compose", version = "unspecified" }
-doraibu-android-feature = { id = "jetpack.android.feature", version = "unspecified" }
-doraibu-android-feature-compose = { id = "jetpack.android.feature.compose", version = "unspecified" }
-doraibu-android-hilt = { id = "jetpack.android.hilt", version = "unspecified" }
-doraibu-android-library = { id = "jetpack.android.library", version = "unspecified" }
-doraibu-android-library-compose = { id = "jetpack.android.library.compose", version = "unspecified" }
-doraibu-android-lint = { id = "jetpack.android.lint", version = "unspecified" }
-doraibu-androidx-room = { id = "jetpack.androidx.room", version = "unspecified" }
+doraibu-android-application = { id = "doraibu.android.application", version = "unspecified" }
+doraibu-android-application-compose = { id = "doraibu.android.application.compose", version = "unspecified" }
+doraibu-android-feature = { id = "doraibu.android.feature", version = "unspecified" }
+doraibu-android-feature-compose = { id = "doraibu.android.feature.compose", version = "unspecified" }
+doraibu-android-hilt = { id = "doraibu.android.hilt", version = "unspecified" }
+doraibu-android-library = { id = "doraibu.android.library", version = "unspecified" }
+doraibu-android-library-compose = { id = "doraibu.android.library.compose", version = "unspecified" }
+doraibu-android-lint = { id = "doraibu.android.lint", version = "unspecified" }
+doraibu-androidx-room = { id = "doraibu.androidx.room", version = "unspecified" }

@@ -33,39 +33,39 @@ tasks {
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "jetpack.android.application"
+            id = "doraibu.android.application"
             implementationClass = "AndroidApplicationPlugin"
         }
         register("androidApplicationCompose") {
-            id = "jetpack.android.application.compose"
+            id = "doraibu.android.application.compose"
             implementationClass = "AndroidApplicationComposePlugin"
         }
         register("androidFeature") {
-            id = "jetpack.android.feature"
+            id = "doraibu.android.feature"
             implementationClass = "AndroidFeaturePlugin"
         }
         register("androidFeatureCompose") {
-            id = "jetpack.android.feature.compose"
+            id = "doraibu.android.feature.compose"
             implementationClass = "AndroidFeatureComposePlugin"
         }
         register("androidHilt") {
-            id = "jetpack.android.hilt"
+            id = "doraibu.android.hilt"
             implementationClass = "AndroidHiltPlugin"
         }
         register("androidLibrary") {
-            id = "jetpack.android.library"
+            id = "doraibu.android.library"
             implementationClass = "AndroidLibraryPlugin"
         }
         register("androidLibraryCompose") {
-            id = "jetpack.android.library.compose"
+            id = "doraibu.android.library.compose"
             implementationClass = "AndroidLibraryComposePlugin"
         }
         register("androidLint") {
-            id = "jetpack.android.lint"
+            id = "doraibu.android.lint"
             implementationClass = "AndroidLintPlugin"
         }
         register("androidXRoom") {
-            id = "jetpack.androidx.room"
+            id = "doraibu.androidx.room"
             implementationClass = "AndroidRoomPlugin"
         }
     }
