@@ -40,4 +40,6 @@ dependencies {
 	implementation(project(":core:ui"))
 
 	implementation(project(":feature:scan"))
+	implementation(libs.androidx.navigation.fragment)
+	implementation(libs.androidx.navigation.ui)
 }
