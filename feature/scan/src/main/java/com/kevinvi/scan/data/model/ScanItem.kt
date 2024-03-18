@@ -1,33 +1,45 @@
 package com.kevinvi.scan.data.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ScanItem(
 	val result: String,
-	val reponse: String,
+	val response: String,
 	val data: List<ScanData>,
 )
 
+@Serializable
 data class ScanData(
 	val id: String,
-	val attributes: ScanAttributes?,
+	val attributes: ScanAttributes?= null,
+	val relationships: List<ScanRelationships>?= null,
 )
 
+@Serializable
 data class ScanAttributes(
-	val title: ScanDescription?,
-	val description: ScanDescription?,
-	val createdAt: String?,
-	val updatedAt: String?,
-	val fileName: String?,
-	val relationships: List<ScanRelationships>?,
+	val title: ScanDescription?= null,
+	val description: ScanDescription?= null,
+	val createdAt: String?= null,
+	val updatedAt: String?= null,
+	val fileName: String?= null,
 )
 
+@Serializable
+data class ScanAttributesImage(
+	val fileName: String?= null,
+)
+
+@Serializable
 data class ScanRelationships(
 	val id: String,
-	val type: String,
-	val attributes: ScanAttributes?,
+	val type: String? = null,
+	val attributes: ScanAttributesImage?= null,
 )
 
+@Serializable
 data class ScanDescription(
-	val en: String?,
-	val fr: String?,
+	val en: String? = null,
+	val fr: String? = null,
 )
 

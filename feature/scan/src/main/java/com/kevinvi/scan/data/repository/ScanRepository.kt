@@ -1,9 +1,11 @@
 package com.kevinvi.scan.data.repository
 
-interface ScanRepository {
-	fun getMangaByName(name:String)
+import com.kevinvi.scan.data.model.ScanItem
 
-	fun getLastestChapter(id: String)
+interface ScanRepository {
+	suspend fun getMangaByName(name:String): ScanItem
+
+	suspend fun getLastestChapter(id: String)
 
 	fun getImage(id:String, covertArt: String)
 }

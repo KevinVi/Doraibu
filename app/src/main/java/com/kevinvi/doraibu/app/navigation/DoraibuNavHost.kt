@@ -9,11 +9,11 @@ fun DoraibuNavHost(
 	onShowSnackbar: suspend (String, String?) -> Boolean,
 	modifier: Modifier = Modifier,
 ) {
-	val navController = appState.navController
-	NavHost(
-		navController = navController,
-		modifier = modifier,
-	) {
-
-	}
+	// val navController = appState.navController
+	// NavHost(
+	// 	navController = navController,
+	// 	modifier = modifier,
+	// ) {
+	//
+	// }
 }

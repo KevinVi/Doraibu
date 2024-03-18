@@ -12,7 +12,6 @@ class AndroidApplicationPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.application")
-                apply("jetpack.android.lint")
                 apply("org.jetbrains.kotlin.android")
             }
 
