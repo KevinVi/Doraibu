@@ -4,6 +4,7 @@ compose = "1.6.2"
 compose-bom = "2024.02.01"
 composeCompiler = "1.5.10"
 compose-material3 = "1.2.0"
+coil = "2.5.0"
 core-ktx = "1.12.0"
 desugar-jdk-libs = "2.0.4"
 gradle-plugin = "8.3.0"
@@ -19,6 +20,11 @@ navigation = "2.7.7"
 room = "2.6.1"
 navigationFragment = "2.7.7"
 navigationUi = "2.7.7"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+appcompat = "1.6.1"
+material = "1.11.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -30,6 +36,8 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compos
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-androidx" }
@@ -62,6 +70,11 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [bundles]
 ktor = [

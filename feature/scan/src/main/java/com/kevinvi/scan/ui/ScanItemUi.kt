@@ -7,6 +7,19 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ScanItemUi(
+	val result: String,
+	val items: List<ScanItemDataUi>,
+) : UiModel, Parcelable {
+	companion object {
+		val EMPTY = ScanItemUi(
+			result = String.empty,
+			items = emptyList()
+		)
+	}
+}
+
+@Parcelize
+data class ScanItemDataUi(
 	val id: String,
 	val title: String?,
 	val description: String?,
@@ -16,7 +29,7 @@ data class ScanItemUi(
 ) : UiModel, Parcelable {
 
 	companion object {
-		val EMPTY = ScanItemUi(
+		val EMPTY = ScanItemDataUi(
 			id = String.empty,
 			title = null,
 			description = null,

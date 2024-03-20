@@ -2,19 +2,28 @@ package com.kevinvi.scan.mapper
 
 import com.kevinvi.common.data.MapperList
 import com.kevinvi.common.extension.empty
+import com.kevinvi.scan.data.model.ScanData
 import com.kevinvi.scan.data.model.ScanDescription
 import com.kevinvi.scan.data.model.ScanItem
 import com.kevinvi.scan.data.model.ScanRelationships
+import com.kevinvi.scan.ui.ScanItemDataUi
 import com.kevinvi.scan.ui.ScanItemUi
 
 object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 	override fun mapToUi(item: ScanItem) = ScanItemUi(
-		id = item.data[0].id,
-		title = item.data[0].attributes?.title?.toString(),
-		description = getDescription(item.data[0].attributes?.description),
-		createdAt = item.data[0].attributes?.createdAt,
-		updatedAt = item.data[0].attributes?.updatedAt,
-		image = getImage(item.data[0].id, getCoverArt(item.data[0].relationships))
+
+		result = item.result,
+		items = item.data.map { mapData(it) },
+	)
+
+	private fun mapData(data: ScanData) = ScanItemDataUi(
+		id = data.id,
+		title = getDescription(data.attributes?.title),
+		description = getDescription(data.attributes?.description),
+		createdAt = data.attributes?.createdAt,
+		updatedAt = data.attributes?.updatedAt,
+		image = getImage(data.id, getCoverArt(data.relationships))
+
 	)
 
 	private fun getCoverArt(relation: List<ScanRelationships>?): String {

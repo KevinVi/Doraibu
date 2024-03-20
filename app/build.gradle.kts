@@ -1,6 +1,7 @@
 plugins {
 	alias(libs.plugins.doraibu.android.application)
 	alias(libs.plugins.doraibu.android.application.compose)
+	alias(libs.plugins.doraibu.android.hilt)
 }
 
 android {
@@ -41,6 +42,11 @@ dependencies {
 	implementation(project(":core:ui"))
 
 	implementation(project(":feature:scan"))
+
+	// Coil
+	implementation(libs.coil.compose)
+	implementation(libs.coil.svg)
+
 	implementation(libs.androidx.navigation.fragment)
 	implementation(libs.androidx.navigation.ui)
 }

@@ -32,6 +32,7 @@ internal fun Project.configureAndroidCompose(
 
             add("debugImplementation", libs.findLibrary("androidx-compose-ui-test-manifest").get())
             add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
+
         }
     }
 }
