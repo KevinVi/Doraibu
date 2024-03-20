@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-	namespace = "com.kevinvi.anime"
+	namespace = "com.kevinvi.tome"
 	compileSdk = 34
 
 	defaultConfig {
@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-
 	implementation(libs.androidx.core.ktx)
 
 	// Ktor

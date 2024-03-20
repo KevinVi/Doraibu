@@ -3,13 +3,14 @@ package com.kevinvi.doraibu.app.ui
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -36,10 +37,12 @@ fun MainScreen() {
 
 	val viewModel: MainActivityViewModel = hiltViewModel()
 	var text by remember { mutableStateOf("") }
-	val toto by viewModel.stateData.collectAsStateWithLifecycle()
+	val search by viewModel.stateData.collectAsStateWithLifecycle()
 
 	Scaffold {
-		Column {
+		Column(
+			modifier = Modifier.verticalScroll(rememberScrollState())
+		) {
 			SearchBar(
 				modifier = Modifier
 					.fillMaxWidth()
@@ -77,16 +80,44 @@ fun MainScreen() {
 
 			}
 
-			if (toto.list.isNotEmpty()) Text(text = "Scan ")
+			if (search.list.isNotEmpty()) Text(text = "Scan ", modifier = Modifier.padding(horizontal = 20.dp))
 			LazyRow(
 				modifier = Modifier
 					.fillMaxWidth(),
-				contentPadding = PaddingValues(16.dp),
-				horizontalArrangement = Arrangement.spacedBy(4.dp)
+				contentPadding = PaddingValues(8.dp),
 			) {
-				items(toto.list) { it ->
+				items(search.list) { it ->
 					// Search result
 					ScanSearchResult(
+						it
+					)
+				}
+			}
+
+			if (search.listAnime.isNotEmpty()) Text(text = "Anime ", modifier = Modifier.padding(start = 20.dp))
+			LazyRow(
+				modifier = Modifier
+					.fillMaxWidth(),
+				contentPadding = PaddingValues(8.dp),
+			) {
+				items(search.listAnime) { it ->
+					// Search result
+					AnimeSearchResult(
+						it
+					)
+				}
+			}
+			if (search.listTome.isNotEmpty()) Text(text = "Tome ", modifier = Modifier.padding(start = 20.dp))
+			LazyRow(
+				modifier = Modifier
+					.fillMaxWidth(),
+				contentPadding = PaddingValues(8.dp),
+			) {
+				items(search.listTome) { it ->
+					// Search result
+					Log.d("TAG", "MainScreen: $it")
+					TomeSearchResult(
+
 						it
 					)
 				}

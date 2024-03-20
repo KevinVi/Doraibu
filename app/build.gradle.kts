@@ -42,6 +42,8 @@ dependencies {
 	implementation(project(":core:ui"))
 
 	implementation(project(":feature:scan"))
+	implementation(project(":feature:anime"))
+	implementation(project(":feature:tome"))
 
 	// Coil
 	implementation(libs.coil.compose)

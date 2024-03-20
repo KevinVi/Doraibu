@@ -3,9 +3,15 @@ package com.kevinvi.doraibu.app
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kevinvi.anime.data.repository.AnimeRepository
+import com.kevinvi.anime.mapper.AnimeItemMapper
+import com.kevinvi.anime.ui.AnimeItemUi
 import com.kevinvi.scan.data.repository.ScanRepository
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanItemDataUi
+import com.kevinvi.tome.data.repository.TomeRepository
+import com.kevinvi.tome.mapper.TomeItemMapper
+import com.kevinvi.tome.ui.TomeItemUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +23,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(val scanRepository: ScanRepository) : ViewModel() {
+class MainActivityViewModel @Inject constructor(
+	val scanRepository: ScanRepository,
+	val animeRepository: AnimeRepository,
+	val tomeRepository: TomeRepository,
+	) : ViewModel() {
 
 	private var _stateData = MutableStateFlow(ScanListUiState())
 
@@ -34,11 +44,31 @@ class MainActivityViewModel @Inject constructor(val scanRepository: ScanReposito
 				_stateData.update { it.copy(list = result) }
 			}
 			_stateData.update { it.copy(isLoading = false) }
+
+			animeRepository.getAnimeByName(data).let {
+
+				Log.d("TAG", "search: $it")
+				val result = AnimeItemMapper.mapToUi(it).data
+				_stateData.update { it.copy(listAnime = result) }
+			}
+			_stateData.update { it.copy(isLoading = false) }
+
+			tomeRepository.getTomeByName(data).let {
+
+				Log.d("TAG", "search: $it")
+				val result = TomeItemMapper.mapToUi(it).data
+				_stateData.update { it.copy(listTome = result) }
+			}
+			_stateData.update { it.copy(isLoading = false) }
 		}
 	}
 
 }
 
-data class ScanListUiState(val list: List<ScanItemDataUi> = emptyList(), val isLoading: Boolean = true) {
+data class ScanListUiState(
+	val list: List<ScanItemDataUi> = emptyList(),
+	val listAnime: List<AnimeItemUi> = emptyList(),
+	val listTome: List<TomeItemUi> = emptyList(),
+	val isLoading: Boolean = true) {
 
 }

@@ -31,6 +31,7 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/anime" />
             <option value="$PROJECT_DIR$/feature/scan" />
+            <option value="$PROJECT_DIR$/feature/tome" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

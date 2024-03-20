@@ -1,14 +1,15 @@
-package com.kevinvi.scan.data.repository
+package com.kevinvi.tome.data.repository
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
+
 @Module
 @InstallIn(SingletonComponent::class)
-interface ScanRepositoryModule {
+interface TomeRepositoryModule {
 
 	@Binds
-	fun bindsScanRepository(scanRepositoryImpl: ScanRepositoryImpl): ScanRepository
+	fun bindsScanRepository(tomeRepositoryImpl: TomeRepositoryImpl): TomeRepository
 }
