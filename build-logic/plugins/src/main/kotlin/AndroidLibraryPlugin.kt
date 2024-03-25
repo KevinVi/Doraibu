@@ -10,7 +10,6 @@ class AndroidLibraryPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.library")
-                apply("jetpack.android.lint")
                 apply("org.jetbrains.kotlin.android")
             }
 

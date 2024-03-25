@@ -28,12 +28,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.kevinvi.doraibu.app.MainActivityViewModel
+import com.kevinvi.doraibu.app.navigation.navigateToAnimeDetails
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen() {
+fun MainScreen(
+	navController: NavHostController = rememberNavController()) {
 
 	val viewModel: MainActivityViewModel = hiltViewModel()
 	var text by remember { mutableStateOf("") }
@@ -103,7 +107,10 @@ fun MainScreen() {
 				items(search.listAnime) { it ->
 					// Search result
 					AnimeSearchResult(
-						it
+						it,
+						onItemClick = {
+							navController.navigateToAnimeDetails(it)
+						}
 					)
 				}
 			}

@@ -2,6 +2,10 @@ plugins {
 	alias(libs.plugins.doraibu.android.application)
 	alias(libs.plugins.doraibu.android.application.compose)
 	alias(libs.plugins.doraibu.android.hilt)
+
+	id("kotlin-parcelize")
+
+	kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 android {
@@ -48,6 +52,10 @@ dependencies {
 	// Coil
 	implementation(libs.coil.compose)
 	implementation(libs.coil.svg)
+
+
+	// Ktor
+	implementation(libs.bundles.ktor)
 
 	implementation(libs.androidx.navigation.fragment)
 	implementation(libs.androidx.navigation.ui)

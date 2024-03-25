@@ -1,19 +1,23 @@
 package com.kevinvi.doraibu.app.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 
 @Composable
 fun DoraibuNavHost(
-	onShowSnackbar: suspend (String, String?) -> Boolean,
-	modifier: Modifier = Modifier,
+	navController: NavHostController,
+	startScreen: BottomNavigationScreen,
+	innerPadding: PaddingValues,
 ) {
-	// val navController = appState.navController
-	// NavHost(
-	// 	navController = navController,
-	// 	modifier = modifier,
-	// ) {
-	//
-	// }
+	NavHost(
+		navController = navController,
+		startDestination = startScreen.route,
+		modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+	) {
+		addHomeRoute(navController)
+	}
 }
