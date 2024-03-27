@@ -1,8 +1,7 @@
-package com.kevinvi.doraibu.app.ui
+package com.kevinvi.anime.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
@@ -14,12 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.kevinvi.anime.ui.AnimeItemUi
-import com.kevinvi.anime.ui.AnimeDetailItemUi
-import com.kevinvi.common.extension.isNotNullOrBlank
 import com.kevinvi.common.extension.takeIfNotNullOrBlank
-import com.kevinvi.scan.ui.ScanItemDataUi
-import com.kevinvi.scan.ui.ScanItemUi
 
 @Composable
 fun AnimeSearchResult(

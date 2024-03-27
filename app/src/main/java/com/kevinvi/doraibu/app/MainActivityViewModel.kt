@@ -6,6 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.kevinvi.anime.data.repository.AnimeRepository
 import com.kevinvi.anime.mapper.AnimeItemMapper
 import com.kevinvi.anime.ui.AnimeItemUi
+import com.kevinvi.common.extension.launchIO
+import com.kevinvi.doraibu.app.mapper.FavMapper
+import com.kevinvi.doraibu.app.model.FavItemUi
+import com.kevinvi.doraibu.app.repository.FavRepository
 import com.kevinvi.scan.data.repository.ScanRepository
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanItemDataUi
@@ -27,6 +31,7 @@ class MainActivityViewModel @Inject constructor(
 	val scanRepository: ScanRepository,
 	val animeRepository: AnimeRepository,
 	val tomeRepository: TomeRepository,
+	val favRepository: FavRepository
 	) : ViewModel() {
 
 	private var _stateData = MutableStateFlow(ScanListUiState())
@@ -62,6 +67,12 @@ class MainActivityViewModel @Inject constructor(
 			_stateData.update { it.copy(isLoading = false) }
 		}
 	}
+	fun saveFav(item: FavItemUi) {
+		viewModelScope.launchIO {
+			favRepository.save(item)
+		}
+	}
+
 
 }
 

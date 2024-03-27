@@ -1,9 +1,15 @@
 package com.kevinvi.scan.ui
 
+import android.os.Bundle
 import android.os.Parcelable
+import androidx.navigation.NavType
 import com.kevinvi.common.UiModel
 import com.kevinvi.common.extension.empty
+import com.kevinvi.common.navigation.NavigationUtils
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import java.net.URLDecoder
 
 @Parcelize
 data class ScanItemUi(
@@ -17,7 +23,7 @@ data class ScanItemUi(
 		)
 	}
 }
-
+@Serializable
 @Parcelize
 data class ScanItemDataUi(
 	val id: String,
@@ -37,5 +43,19 @@ data class ScanItemDataUi(
 			updatedAt = null,
 			image = null,
 		)
+	}
+}
+
+class AssetParamTypeScan : NavType<ScanItemDataUi>(isNullableAllowed = false) {
+	override fun get(bundle: Bundle, key: String): ScanItemDataUi? {
+		return bundle.getParcelable(key)
+	}
+
+	override fun parseValue(value: String): ScanItemDataUi {
+		return Json { ignoreUnknownKeys = true }.decodeFromString<ScanItemDataUi>(URLDecoder.decode(value, NavigationUtils.URL_ENCODING))
+	}
+
+	override fun put(bundle: Bundle, key: String, value: ScanItemDataUi) {
+		bundle.putParcelable(key, value)
 	}
 }

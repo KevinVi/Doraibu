@@ -43,6 +43,14 @@ dependencies {
 	// Ktor
 	implementation(libs.bundles.ktor)
 
+	// Coil
+	implementation(libs.coil.compose)
+	implementation(libs.coil.svg)
+
+
+	// Lottie
+	implementation(libs.lottie.loader)
+
 	// Core
 	implementation(project(":core:common"))
 	implementation(project(":core:data"))

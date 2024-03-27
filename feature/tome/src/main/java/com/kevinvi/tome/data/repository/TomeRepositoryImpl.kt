@@ -14,7 +14,7 @@ import javax.inject.Inject
 class TomeRepositoryImpl @Inject constructor() : TomeRepository {
 	override suspend fun getTomeByName(name: String): TomeItem {
 		val client = HttpClient(Android)
-		val response: HttpResponse = client.get("https://www.googleapis.com/books/v1/volumes?q=intitle:$name&orderBy=newest")
+		val response: HttpResponse = client.get("https://www.googleapis.com/books/v1/volumes?q=intitle:$name&orderBy=newest&printType=books")
 
 		val responseBody = response.bodyAsText()
 		return Json { ignoreUnknownKeys = true }.decodeFromString<TomeItem>(responseBody)

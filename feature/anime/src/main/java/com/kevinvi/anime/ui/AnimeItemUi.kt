@@ -41,9 +41,8 @@ class AssetParamType : NavType<AnimeItemUi>(isNullableAllowed = false) {
 
 	override fun parseValue(value: String): AnimeItemUi {
 
-		val toto = URLDecoder.decode(value, NavigationUtils.URL_ENCODING)
 
-		return Json { ignoreUnknownKeys = true }.decodeFromString<AnimeItemUi>(toto)
+		return Json { ignoreUnknownKeys = true }.decodeFromString<AnimeItemUi>(URLDecoder.decode(value, NavigationUtils.URL_ENCODING))
 	}
 
 	override fun put(bundle: Bundle, key: String, value: AnimeItemUi) {

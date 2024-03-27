@@ -60,10 +60,6 @@ gradlePlugin {
             id = "doraibu.android.library.compose"
             implementationClass = "AndroidLibraryComposePlugin"
         }
-        register("androidLint") {
-            id = "doraibu.android.lint"
-            implementationClass = "AndroidLintPlugin"
-        }
         register("androidXRoom") {
             id = "doraibu.androidx.room"
             implementationClass = "AndroidRoomPlugin"

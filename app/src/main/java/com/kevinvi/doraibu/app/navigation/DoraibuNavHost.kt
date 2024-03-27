@@ -18,6 +18,7 @@ fun DoraibuNavHost(
 		startDestination = startScreen.route,
 		modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
 	) {
+		addFavRoute(navController)
 		addHomeRoute(navController)
 	}
 }

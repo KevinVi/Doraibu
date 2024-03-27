@@ -14,17 +14,19 @@ sealed class BottomNavigationScreen(
 	val selectedIcon: Icon,
 	val unselectedIcon: Icon = selectedIcon,
 ) {
+
 	data object Home : BottomNavigationScreen(
-		route = "$BASE_HOME_ROUTE",
+		route = "$BASE_FAV_ROUTE",
 		nameResourceId = R.string.home,
 		selectedIcon = DrawableResIcon(home)
 	)
-
 	data object Search : BottomNavigationScreen(
-		route = "",
+		route = "$BASE_HOME_ROUTE",
 		nameResourceId = R.string.search,
 		selectedIcon = DrawableResIcon(search)
 	)
+
+
 
 	data object Settings : BottomNavigationScreen(
 		route = "",

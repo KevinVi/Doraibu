@@ -25,13 +25,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.kevinvi.anime.ui.AnimeSearchResult
 import com.kevinvi.doraibu.app.MainActivityViewModel
 import com.kevinvi.doraibu.app.navigation.navigateToAnimeDetails
+import com.kevinvi.doraibu.app.navigation.navigateToScanDetails
+import com.kevinvi.scan.ui.ScanSearchResult
+import com.kevinvi.tome.ui.TomeSearchResult
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -42,6 +48,8 @@ fun MainScreen(
 	val viewModel: MainActivityViewModel = hiltViewModel()
 	var text by remember { mutableStateOf("") }
 	val search by viewModel.stateData.collectAsStateWithLifecycle()
+	val keyboardController = LocalSoftwareKeyboardController.current
+	val focusManager = LocalFocusManager.current
 
 	Scaffold {
 		Column(
@@ -58,6 +66,8 @@ fun MainScreen(
 				onSearch = {
 					Log.d("TAG", "MainScreen: $text")
 					viewModel.search(text)
+					focusManager.clearFocus()
+					keyboardController?.hide()
 
 				},
 				active = false,
@@ -93,7 +103,10 @@ fun MainScreen(
 				items(search.list) { it ->
 					// Search result
 					ScanSearchResult(
-						it
+						it,
+						onItemClick = {
+							navController.navigateToScanDetails(it)
+						}
 					)
 				}
 			}

@@ -28,7 +28,7 @@ class DoraibuNavigator(
     val currentScreen: BottomNavigationScreen
         @Composable get() = when (currentDestination?.route) {
             Home.route -> Home
-            // Search.route -> Search
+            Search.route -> Search
             // Settings.route -> Settings
             else -> startScreen
         }
@@ -48,7 +48,8 @@ class DoraibuNavigator(
         }
 
         when (screen) {
-            Home -> navController.navigateToHome(navOptions)
+            Home -> navController.navigateToFav(navOptions)
+            Search -> navController.navigateToHome(navOptions)
             //Search -> navController.navigateToRss(navOptions)
             //Settings -> navController.navigateToSettings(navOptions)
             else -> {}

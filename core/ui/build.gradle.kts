@@ -34,4 +34,7 @@ dependencies {
 	// Material 3
 	implementation(libs.androidx.compose.material3)
 
+	// Lottie
+	implementation(libs.lottie.loader)
+
 }

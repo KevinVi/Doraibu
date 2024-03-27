@@ -12,6 +12,7 @@ import com.kevinvi.anime.ui.AnimeItemUi
 import com.kevinvi.anime.ui.AssetParamType
 import com.kevinvi.common.navigation.NavigationUtils.URL_ENCODING
 import com.kevinvi.common.navigation.navigationBottomBar
+import com.kevinvi.doraibu.app.ui.FavListScreen
 import com.kevinvi.doraibu.app.ui.MainScreen
 import com.kevinvi.scan.ui.AssetParamTypeScan
 import com.kevinvi.doraibu.app.ui.ScanDetailItemUi
@@ -21,61 +22,44 @@ import kotlinx.serialization.json.encodeToJsonElement
 import java.net.URLDecoder
 import java.net.URLEncoder
 
-const val BASE_HOME_ROUTE = "home"
+const val BASE_FAV_ROUTE = "fav"
 
-private const val HOME_ROUTE = "home"
-private const val HOME_LIST_ROUTE = "list"
-private const val HOME_DETAIL_ANIME_ROUTE = "detail_anime"
-private const val HOME_DETAIL_SCAN_ROUTE = "detail_scan"
-private const val HOME_DETAIL_TOME_ROUTE = "detail_tome"
-private const val HOME_LIST_ARG = "type"
-private const val HOME_DETAILS_ARG = "id"
+private const val FAV_ROUTE = "fav"
+private const val FAV_LIST_ROUTE = "list"
+private const val FAV_DETAIL_ANIME_ROUTE = "detail_anime"
+private const val FAV_DETAIL_SCAN_ROUTE = "detail_scan"
+private const val FAV_DETAIL_TOME_ROUTE = "detail_tome"
+private const val FAV_LIST_ARG = "type"
+private const val FAV_DETAILS_ARG = "id"
 
-internal class HomeDetailsArg(val id: String) {
+internal class FavDetailsArg(val id: String) {
 	constructor(savedStateHandle: SavedStateHandle) :
 		this(
 			URLDecoder.decode(
-				checkNotNull(savedStateHandle[HOME_DETAILS_ARG]),
+				checkNotNull(savedStateHandle[FAV_DETAILS_ARG]),
 				URL_ENCODING,
 			),
 		)
 }
 
-fun NavController.navigateToHome(navOptions: NavOptions) {
-	navigate(HOME_ROUTE, navOptions)
+fun NavController.navigateToFav(navOptions: NavOptions) {
+	navigate(FAV_ROUTE, navOptions)
 }
 
-fun NavController.navigateToAnimeDetails(item: AnimeItemUi) {
-	val json = Json.encodeToJsonElement(item)
-	navigate(
-		"$HOME_DETAIL_ANIME_ROUTE/${URLEncoder.encode(json.toString(), URL_ENCODING)}",
-	) {
-		launchSingleTop = true
-	}
-}
 
-fun NavController.navigateToScanDetails(item: ScanItemDataUi) {
-	val json = Json.encodeToJsonElement(item)
-	navigate(
-		"$HOME_DETAIL_SCAN_ROUTE/${URLEncoder.encode(json.toString(), URL_ENCODING)}",
-	) {
-		launchSingleTop = true
-	}
-}
-
-fun NavGraphBuilder.addHomeRoute(navController: NavHostController) {
+fun NavGraphBuilder.addFavRoute(navController: NavHostController) {
 	navigationBottomBar(
-		startDestination = "$BASE_HOME_ROUTE/$HOME_ROUTE",
-		route = BASE_HOME_ROUTE,
+		startDestination = "$BASE_FAV_ROUTE/$FAV_ROUTE",
+		route = BASE_FAV_ROUTE,
 	) {
-		composable("$BASE_HOME_ROUTE/$HOME_ROUTE") {
-			MainScreen(navController)
+		composable("$BASE_FAV_ROUTE/$FAV_ROUTE") {
+			FavListScreen(navController)
 		}
 
 
 
 		composable(
-			"$HOME_DETAIL_ANIME_ROUTE/{data}",
+			"$FAV_DETAIL_ANIME_ROUTE/{data}",
 			arguments = listOf(
 				navArgument("data") {
 					type = AssetParamType()
@@ -92,9 +76,8 @@ fun NavGraphBuilder.addHomeRoute(navController: NavHostController) {
 			}
 		}
 
-
 		composable(
-			"$HOME_DETAIL_SCAN_ROUTE/{data}",
+			"$FAV_DETAIL_SCAN_ROUTE/{data}",
 			arguments = listOf(
 				navArgument("data") {
 					type = AssetParamTypeScan()
@@ -112,14 +95,14 @@ fun NavGraphBuilder.addHomeRoute(navController: NavHostController) {
 		}
 
 		// composable(
-		// 	route = "$HOME_LIST_ROUTE/{$HOME_LIST_ARG}",
+		// 	route = "$FAV_LIST_ROUTE/{$FAV_LIST_ARG}",
 		// 	arguments = listOf(
-		// 		navArgument(HOME_LIST_ARG) {
+		// 		navArgument(FAV_LIST_ARG) {
 		// 			type = NavType.StringType
 		// 		},
 		// 	),
 		// ) {
-		// 	HomeListScreen(navController)
+		// 	FavListScreen(navController)
 	}
 }
 

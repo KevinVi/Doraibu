@@ -41,6 +41,10 @@ dependencies {
 	// Ktor
 	implementation(libs.bundles.ktor)
 
+	// Coil
+	implementation(libs.coil.compose)
+	implementation(libs.coil.svg)
+
 	// Core
 	implementation(project(":core:common"))
 	implementation(project(":core:data"))

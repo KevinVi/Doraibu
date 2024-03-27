@@ -2,7 +2,6 @@ package com.kevinvi.doraibu.app.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
@@ -11,18 +10,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.kevinvi.common.extension.isNotNullOrBlank
 import com.kevinvi.common.extension.takeIfNotNullOrBlank
-import com.kevinvi.scan.ui.ScanItemDataUi
-import com.kevinvi.scan.ui.ScanItemUi
+import com.kevinvi.doraibu.app.model.FavItemUi
 
 @Composable
-fun ScanSearchResult(item: ScanItemDataUi) {
+fun FavListItem(
 
+	item: FavItemUi,
+	onItemClick: (item: FavItemUi) -> Unit,
+) {
 	Card(
+		onClick = { onItemClick(item) },
 		elevation = CardDefaults.cardElevation(),
 		modifier = Modifier
 			.padding(10.dp)
@@ -31,7 +31,7 @@ fun ScanSearchResult(item: ScanItemDataUi) {
 	{
 
 		Column {
-			item.image.takeIfNotNullOrBlank()?.let {
+			item.imageUrl.takeIfNotNullOrBlank()?.let {
 				AsyncImage(
 					model = it,
 					contentDescription = null,
@@ -47,20 +47,4 @@ fun ScanSearchResult(item: ScanItemDataUi) {
 
 	}
 
-}
-
-@Preview
-@Composable
-fun ScanItemComposable() {
-
-	ScanSearchResult(
-		ScanItemDataUi(
-			id = "10",
-			title = "One piece",
-			description = "un mec qui a un équipage et qui veut devenir roi des pirates",
-			createdAt = "date 1 ",
-			updatedAt = "data 2 ",
-			image = "https://uploads.mangadex.org/covers/68112dc1-2b80-4f20-beb8-2f2a8716a430/c3f43d5a-83c4-44bd-a117-b247019329b2.jpg",
-		)
-	)
 }

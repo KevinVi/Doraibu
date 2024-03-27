@@ -1,4 +1,4 @@
-package com.kevinvi.doraibu.app.ui
+package com.kevinvi.tome.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.kevinvi.common.extension.empty
 import com.kevinvi.common.extension.takeIfNotNullOrBlank
-import com.kevinvi.tome.ui.TomeItemUi
 
 @Composable
 fun TomeSearchResult(item: TomeItemUi) {
@@ -31,7 +30,7 @@ fun TomeSearchResult(item: TomeItemUi) {
 		Column {
 			item.picture.takeIfNotNullOrBlank()?.let {
 				AsyncImage(
-					model = it,
+					model = it.replace("http","https"),
 					contentDescription = null,
 					contentScale = ContentScale.Crop,
 					modifier = Modifier.aspectRatio(2f / 3f)
