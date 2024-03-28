@@ -13,7 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.kevinvi.common.extension.takeIfNotNullOrBlank
-import com.kevinvi.doraibu.app.model.FavItemUi
+import com.kevinvi.ui.model.FavItemUi
 
 @Composable
 fun FavListItem(

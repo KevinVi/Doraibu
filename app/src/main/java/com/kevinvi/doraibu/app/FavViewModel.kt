@@ -2,9 +2,9 @@ package com.kevinvi.doraibu.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kevinvi.doraibu.app.mapper.FavMapper
-import com.kevinvi.doraibu.app.model.FavItemUi
-import com.kevinvi.doraibu.app.repository.FavRepository
+import com.kevinvi.data.room.mapper.FavMapper
+import com.kevinvi.ui.model.FavItemUi
+import com.kevinvi.data.room.repository.FavRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

@@ -7,9 +7,9 @@ import com.kevinvi.anime.data.repository.AnimeRepository
 import com.kevinvi.anime.mapper.AnimeItemMapper
 import com.kevinvi.anime.ui.AnimeItemUi
 import com.kevinvi.common.extension.launchIO
-import com.kevinvi.doraibu.app.mapper.FavMapper
-import com.kevinvi.doraibu.app.model.FavItemUi
-import com.kevinvi.doraibu.app.repository.FavRepository
+import com.kevinvi.data.room.mapper.FavMapper
+import com.kevinvi.ui.model.FavItemUi
+import com.kevinvi.data.room.repository.FavRepository
 import com.kevinvi.scan.data.repository.ScanRepository
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanItemDataUi
@@ -40,7 +40,7 @@ class MainActivityViewModel @Inject constructor(
 		get() = _stateData
 
 	fun search(data: String) {
-		_stateData.update { it.copy(isLoading = true) }
+		_stateData.update { it.copy(isAnimeLoading = true, isScanLoading = true, isTomeLoading = true) }
 		viewModelScope.launch(Dispatchers.IO) {
 			scanRepository.getMangaByName(data).let {
 
@@ -48,7 +48,7 @@ class MainActivityViewModel @Inject constructor(
 				val result = ScanItemMapper.mapToUi(it).items
 				_stateData.update { it.copy(list = result) }
 			}
-			_stateData.update { it.copy(isLoading = false) }
+			_stateData.update { it.copy(isScanLoading = false) }
 
 			animeRepository.getAnimeByName(data).let {
 
@@ -56,7 +56,7 @@ class MainActivityViewModel @Inject constructor(
 				val result = AnimeItemMapper.mapToUi(it).data
 				_stateData.update { it.copy(listAnime = result) }
 			}
-			_stateData.update { it.copy(isLoading = false) }
+			_stateData.update { it.copy(isAnimeLoading = false) }
 
 			tomeRepository.getTomeByName(data).let {
 
@@ -64,12 +64,17 @@ class MainActivityViewModel @Inject constructor(
 				val result = TomeItemMapper.mapToUi(it).data
 				_stateData.update { it.copy(listTome = result) }
 			}
-			_stateData.update { it.copy(isLoading = false) }
+			_stateData.update { it.copy(isTomeLoading = false) }
 		}
 	}
 	fun saveFav(item: FavItemUi) {
 		viewModelScope.launchIO {
 			favRepository.save(item)
+		}
+	}
+	fun deleteFav(id: String) {
+		viewModelScope.launchIO {
+			favRepository.delete(id)
 		}
 	}
 
@@ -80,6 +85,9 @@ data class ScanListUiState(
 	val list: List<ScanItemDataUi> = emptyList(),
 	val listAnime: List<AnimeItemUi> = emptyList(),
 	val listTome: List<TomeItemUi> = emptyList(),
-	val isLoading: Boolean = true) {
+	val isScanLoading: Boolean = true,
+	val isAnimeLoading: Boolean = true,
+	val isTomeLoading: Boolean = true,
+	) {
 
 }

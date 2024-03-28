@@ -21,34 +21,34 @@ import kotlinx.serialization.json.encodeToJsonElement
 import java.net.URLDecoder
 import java.net.URLEncoder
 
-const val BASE_HOME_ROUTE = "home"
+const val BASE_SEARCH_ROUTE = "search"
 
-private const val HOME_ROUTE = "home"
-private const val HOME_LIST_ROUTE = "list"
-private const val HOME_DETAIL_ANIME_ROUTE = "detail_anime"
-private const val HOME_DETAIL_SCAN_ROUTE = "detail_scan"
-private const val HOME_DETAIL_TOME_ROUTE = "detail_tome"
-private const val HOME_LIST_ARG = "type"
-private const val HOME_DETAILS_ARG = "id"
+private const val SEARCH_ROUTE = "search"
+private const val SEARCH_LIST_ROUTE = "list"
+private const val SEARCH_DETAIL_ANIME_ROUTE = "detail_anime"
+private const val SEARCH_DETAIL_SCAN_ROUTE = "detail_scan"
+private const val SEARCH_DETAIL_TOME_ROUTE = "detail_tome"
+private const val SEARCH_LIST_ARG = "type"
+private const val SEARCH_DETAILS_ARG = "id"
 
-internal class HomeDetailsArg(val id: String) {
+internal class SearchDetailsArg(val id: String) {
 	constructor(savedStateHandle: SavedStateHandle) :
 		this(
 			URLDecoder.decode(
-				checkNotNull(savedStateHandle[HOME_DETAILS_ARG]),
+				checkNotNull(savedStateHandle[SEARCH_DETAILS_ARG]),
 				URL_ENCODING,
 			),
 		)
 }
 
-fun NavController.navigateToHome(navOptions: NavOptions) {
-	navigate(HOME_ROUTE, navOptions)
+fun NavController.navigateToSearch(navOptions: NavOptions) {
+	navigate(SEARCH_ROUTE, navOptions)
 }
 
 fun NavController.navigateToAnimeDetails(item: AnimeItemUi) {
 	val json = Json.encodeToJsonElement(item)
 	navigate(
-		"$HOME_DETAIL_ANIME_ROUTE/${URLEncoder.encode(json.toString(), URL_ENCODING)}",
+		"$SEARCH_DETAIL_ANIME_ROUTE/${URLEncoder.encode(json.toString(), URL_ENCODING)}",
 	) {
 		launchSingleTop = true
 	}
@@ -57,25 +57,25 @@ fun NavController.navigateToAnimeDetails(item: AnimeItemUi) {
 fun NavController.navigateToScanDetails(item: ScanItemDataUi) {
 	val json = Json.encodeToJsonElement(item)
 	navigate(
-		"$HOME_DETAIL_SCAN_ROUTE/${URLEncoder.encode(json.toString(), URL_ENCODING)}",
+		"$SEARCH_DETAIL_SCAN_ROUTE/${URLEncoder.encode(json.toString(), URL_ENCODING)}",
 	) {
 		launchSingleTop = true
 	}
 }
 
-fun NavGraphBuilder.addHomeRoute(navController: NavHostController) {
+fun NavGraphBuilder.addSearchRoute(navController: NavHostController) {
 	navigationBottomBar(
-		startDestination = "$BASE_HOME_ROUTE/$HOME_ROUTE",
-		route = BASE_HOME_ROUTE,
+		startDestination = "$BASE_SEARCH_ROUTE/$SEARCH_ROUTE",
+		route = BASE_SEARCH_ROUTE,
 	) {
-		composable("$BASE_HOME_ROUTE/$HOME_ROUTE") {
+		composable("$BASE_SEARCH_ROUTE/$SEARCH_ROUTE") {
 			MainScreen(navController)
 		}
 
 
 
 		composable(
-			"$HOME_DETAIL_ANIME_ROUTE/{data}",
+			"$SEARCH_DETAIL_ANIME_ROUTE/{data}",
 			arguments = listOf(
 				navArgument("data") {
 					type = AssetParamType()
@@ -94,7 +94,7 @@ fun NavGraphBuilder.addHomeRoute(navController: NavHostController) {
 
 
 		composable(
-			"$HOME_DETAIL_SCAN_ROUTE/{data}",
+			"$SEARCH_DETAIL_SCAN_ROUTE/{data}",
 			arguments = listOf(
 				navArgument("data") {
 					type = AssetParamTypeScan()
@@ -112,14 +112,14 @@ fun NavGraphBuilder.addHomeRoute(navController: NavHostController) {
 		}
 
 		// composable(
-		// 	route = "$HOME_LIST_ROUTE/{$HOME_LIST_ARG}",
+		// 	route = "$SEARCH_LIST_ROUTE/{$SEARCH_LIST_ARG}",
 		// 	arguments = listOf(
-		// 		navArgument(HOME_LIST_ARG) {
+		// 		navArgument(SEARCH_LIST_ARG) {
 		// 			type = NavType.StringType
 		// 		},
 		// 	),
 		// ) {
-		// 	HomeListScreen(navController)
+		// 	SearchListScreen(navController)
 	}
 }
 

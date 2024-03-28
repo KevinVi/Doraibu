@@ -1,7 +1,7 @@
-package com.kevinvi.doraibu.app.mapper
+package com.kevinvi.data.room.mapper
 
 import com.kevinvi.data.room.model.FavItem
-import com.kevinvi.doraibu.app.model.FavItemUi
+import com.kevinvi.ui.model.FavItemUi
 
 object FavMapper {
 

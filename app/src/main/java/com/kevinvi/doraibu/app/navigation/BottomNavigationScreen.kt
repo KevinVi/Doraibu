@@ -21,7 +21,7 @@ sealed class BottomNavigationScreen(
 		selectedIcon = DrawableResIcon(home)
 	)
 	data object Search : BottomNavigationScreen(
-		route = "$BASE_HOME_ROUTE",
+		route = "$BASE_SEARCH_ROUTE",
 		nameResourceId = R.string.search,
 		selectedIcon = DrawableResIcon(search)
 	)

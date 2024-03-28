@@ -49,7 +49,7 @@ class DoraibuNavigator(
 
         when (screen) {
             Home -> navController.navigateToFav(navOptions)
-            Search -> navController.navigateToHome(navOptions)
+            Search -> navController.navigateToSearch(navOptions)
             //Search -> navController.navigateToRss(navOptions)
             //Settings -> navController.navigateToSettings(navOptions)
             else -> {}

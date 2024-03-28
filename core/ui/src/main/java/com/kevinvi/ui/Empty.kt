@@ -14,17 +14,16 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 @Composable
-fun Loader(
+fun Empty(
 	isLoading: Boolean,
 ) {
 	if (isLoading) {
-		val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loader))
+		val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.empty))
 		val progress by animateLottieCompositionAsState(composition)
 		LottieAnimation(
 			modifier = Modifier
 				.fillMaxWidth().height(100.dp),
 			composition = composition,
-			iterations = LottieConstants.IterateForever,
 		)
 	}
 }

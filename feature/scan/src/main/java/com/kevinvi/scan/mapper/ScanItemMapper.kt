@@ -8,10 +8,19 @@ import com.kevinvi.scan.data.model.ScanItem
 import com.kevinvi.scan.data.model.ScanRelationships
 import com.kevinvi.scan.ui.ScanItemDataUi
 import com.kevinvi.scan.ui.ScanItemUi
+import com.kevinvi.ui.model.FavItemUi
 
 object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
-	override fun mapToUi(item: ScanItem) = ScanItemUi(
 
+	fun mapToDetail(item: ScanItem) = FavItemUi(
+		lastEntry = item.data.first().attributes?.chapter?.toInt(),
+		createdAt = item.data.first().attributes?.createdAt,
+		updatedAt = item.data.first().attributes?.updatedAt,
+		linked = item.data.first().attributes?.externalUrl,
+
+		)
+
+	override fun mapToUi(item: ScanItem) = ScanItemUi(
 		result = item.result,
 		items = item.data.map { mapData(it) },
 	)

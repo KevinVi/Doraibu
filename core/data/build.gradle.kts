@@ -2,6 +2,12 @@ plugins {
 	alias(libs.plugins.doraibu.android.library)
 	alias(libs.plugins.doraibu.android.hilt)
 	alias(libs.plugins.doraibu.androidx.room)
+	alias(libs.plugins.doraibu.android.feature)
+	alias(libs.plugins.doraibu.android.feature.compose)
+
+	id("kotlin-parcelize")
+
+	kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 android {
@@ -32,5 +38,9 @@ android {
 
 dependencies {
 
+	implementation(project(":core:common"))
+	implementation(project(":core:ui"))
 	implementation(libs.androidx.core.ktx)
+	// Ktor
+	implementation(libs.bundles.ktor)
 }

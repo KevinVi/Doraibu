@@ -24,8 +24,11 @@ class ScanRepositoryImpl @Inject constructor() : ScanRepository {
 
 	}
 
-	override suspend fun getLastestChapter(id: String) {
-		TODO("Not yet implemented")
+	override suspend fun getLastestChapter(id: String) : ScanItem{
+		val client = HttpClient(Android)
+		val response: HttpResponse = client.get("https://api.mangadex.org/manga/$id/feed?translatedLanguage[]=fr&order[chapter]=desc&limit=1&includes[]=cover_art")
+		val responseBody = response.bodyAsText()
+		return Json { ignoreUnknownKeys = true }.decodeFromString<ScanItem>(responseBody)
 	}
 
 	override fun getImage(id: String, covertArt: String) {

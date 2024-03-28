@@ -1,4 +1,4 @@
-package com.kevinvi.doraibu.app.repository
+package com.kevinvi.data.room.repository
 
 import dagger.Binds
 import dagger.Module

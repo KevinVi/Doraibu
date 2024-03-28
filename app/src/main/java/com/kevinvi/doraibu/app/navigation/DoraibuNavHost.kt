@@ -19,6 +19,6 @@ fun DoraibuNavHost(
 		modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
 	) {
 		addFavRoute(navController)
-		addHomeRoute(navController)
+		addSearchRoute(navController)
 	}
 }

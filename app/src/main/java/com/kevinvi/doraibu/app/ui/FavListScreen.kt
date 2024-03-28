@@ -17,7 +17,7 @@ import androidx.navigation.NavHostController
 import com.kevinvi.anime.ui.AnimeSearchResult
 import com.kevinvi.doraibu.app.FavListUiState
 import com.kevinvi.doraibu.app.FavViewModel
-import com.kevinvi.doraibu.app.model.FavItemUi
+import com.kevinvi.ui.model.FavItemUi
 import com.kevinvi.doraibu.app.navigation.navigateToAnimeDetails
 import com.kevinvi.ui.Loader
 
@@ -52,7 +52,7 @@ fun FavListScreen(
 			when (favListUiState) {
 				FavListUiState.Loading -> {
 					item {
-						Loader()
+						Loader(true)
 					}
 				}
 

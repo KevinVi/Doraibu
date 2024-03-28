@@ -1,8 +1,8 @@
-package com.kevinvi.doraibu.app.repository
+package com.kevinvi.data.room.repository
 
 import com.kevinvi.data.room.dao.FavDao
-import com.kevinvi.doraibu.app.mapper.FavMapper
-import com.kevinvi.doraibu.app.model.FavItemUi
+import com.kevinvi.data.room.mapper.FavMapper
+import com.kevinvi.ui.model.FavItemUi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

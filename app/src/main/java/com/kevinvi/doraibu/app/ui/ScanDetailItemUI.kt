@@ -10,7 +10,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.rounded.Bookmark
+import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,16 +21,25 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.kevinvi.common.TypeUi
+import com.kevinvi.common.utils.IdFavoriteUtils
 import com.kevinvi.common.extension.empty
 import com.kevinvi.common.extension.takeIfNotNullOrBlank
 import com.kevinvi.doraibu.app.MainActivityViewModel
-import com.kevinvi.doraibu.app.model.FavItemUi
+import com.kevinvi.ui.model.FavItemUi
 import com.kevinvi.scan.ui.ScanItemDataUi
 import com.kevinvi.ui.Loader
 
@@ -52,11 +62,20 @@ private fun ScanDetailContent(
 	viewModel: MainActivityViewModel = hiltViewModel(),
 ) {
 
+	var isFavorite by remember { mutableStateOf(false) }
+
+
+	LaunchedEffect(key1 = Unit) {
+		viewModel.favRepository.getById(IdFavoriteUtils().buildId(item.id, TypeUi.SCAN.name))
+	}
+
+
+	var isFaved = viewModel.favRepository.getById(IdFavoriteUtils().buildId(item.id, TypeUi.SCAN.name))
 	Scaffold(
 		topBar = {
 			TopAppBar(
 				title = {
-					Text(text = "Anime")
+					Text(text = "Scan")
 				},
 				navigationIcon = {
 					IconButton(onClick = onBackClick) {
@@ -69,7 +88,43 @@ private fun ScanDetailContent(
 				colors = TopAppBarDefaults.topAppBarColors(
 					containerColor = MaterialTheme.colorScheme.surface,
 					navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-				)
+				),
+				actions = {
+					IconButton(
+						onClick = {
+							if (!isFavorite) {
+								isFavorite = true
+								viewModel.saveFav(
+									FavItemUi(
+										id = item.id + ";scan",
+										type = "scan",
+										title = item.title,
+										description = item.description,
+										author = String.empty,
+										imageUrl = item.image,
+										language = String.empty,
+										createdAt = item.createdAt,
+										updatedAt = item.updatedAt,
+										progression = 0,
+										lastEntry = 15,
+										linked = "",
+									)
+								)
+							} else {
+								viewModel.deleteFav(item.id + ";scan")
+								isFavorite = false
+							}
+						},
+					) {
+						Icon(
+							imageVector = when (isFavorite) {
+								true -> Icons.Rounded.Bookmark
+								else -> Icons.Rounded.BookmarkBorder
+							},
+							contentDescription = null,
+						)
+					}
+				},
 			)
 		},
 	) { paddingValues ->
@@ -97,28 +152,7 @@ private fun ScanDetailContent(
 				Text(text = it, Modifier.padding(10.dp))
 			}
 
-			Loader()
-
-			Button(onClick = {
-				viewModel.saveFav(
-					FavItemUi(
-						id = item.id+";scan",
-						type = "scan",
-						title = item.title,
-						description = item.description,
-						author = String.empty,
-						imageUrl = item.image,
-						language = String.empty,
-						createdAt = item.createdAt,
-						updatedAt = item.updatedAt,
-						progression = 0,
-						lastEntry = 15,
-						linked = "",
-					)
-				)
-			}) {
-
-			}
+			Loader(true)
 
 		}
 

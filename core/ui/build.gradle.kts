@@ -1,6 +1,9 @@
 plugins {
 	alias(libs.plugins.doraibu.android.library)
 	alias(libs.plugins.doraibu.android.library.compose)
+	id("kotlin-parcelize")
+
+	kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 android {
@@ -33,6 +36,9 @@ dependencies {
 	implementation(libs.androidx.core.ktx)
 	// Material 3
 	implementation(libs.androidx.compose.material3)
+
+
+	implementation(project(":core:common"))
 
 	// Lottie
 	implementation(libs.lottie.loader)

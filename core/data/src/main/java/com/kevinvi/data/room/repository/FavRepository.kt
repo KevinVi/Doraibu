@@ -1,7 +1,7 @@
-package com.kevinvi.doraibu.app.repository
+package com.kevinvi.data.room.repository
 
 import com.kevinvi.data.room.model.FavItem
-import com.kevinvi.doraibu.app.model.FavItemUi
+import com.kevinvi.ui.model.FavItemUi
 import kotlinx.coroutines.flow.Flow
 
 interface FavRepository {
