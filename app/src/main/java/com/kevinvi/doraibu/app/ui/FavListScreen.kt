@@ -17,8 +17,8 @@ import androidx.navigation.NavHostController
 import com.kevinvi.anime.ui.AnimeSearchResult
 import com.kevinvi.doraibu.app.FavListUiState
 import com.kevinvi.doraibu.app.FavViewModel
+import com.kevinvi.doraibu.app.navigation.navigateToDetails
 import com.kevinvi.ui.model.FavItemUi
-import com.kevinvi.doraibu.app.navigation.navigateToAnimeDetails
 import com.kevinvi.ui.Loader
 
 @Composable
@@ -29,9 +29,7 @@ fun FavListScreen (
 	val favListUiState by viewModel.favUiState.collectAsStateWithLifecycle()
 	FavListScreen(
 		favListUiState = favListUiState,
-		onItemClick = {
-			//navController.navigateToFeedDetails(it.url)
-		},
+		navController = navController
 	)
 }
 
@@ -39,7 +37,7 @@ fun FavListScreen (
 @Composable
 fun FavListScreen(
 	favListUiState: FavListUiState,
-	onItemClick: (item: FavItemUi) -> Unit,
+	navController: NavHostController,
 ){
 
 	Scaffold {
@@ -61,7 +59,9 @@ fun FavListScreen(
 						favListUiState.list.isNotEmpty() -> {
 							favListContent(
 								list = favListUiState.list,
-								onItemClick = onItemClick,
+								onItemClick = {
+									navController.navigateToDetails(it)
+								},
 							)
 						}
 

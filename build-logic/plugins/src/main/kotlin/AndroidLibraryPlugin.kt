@@ -1,5 +1,6 @@
 import com.android.build.gradle.LibraryExtension
 import com.kevinvi.doraibu.plugins.PluginSdkVersion
+import com.kevinvi.doraibu.plugins.configureAndroidXNavigation
 import com.kevinvi.doraibu.plugins.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -25,6 +26,7 @@ class AndroidLibraryPlugin : Plugin<Project> {
                     .distinct()
                     .joinToString(separator = "_")
                     .lowercase() + "_"
+                configureAndroidXNavigation(this)
             }
         }
     }

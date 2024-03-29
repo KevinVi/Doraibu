@@ -1,11 +1,18 @@
 package com.kevinvi.ui.model
 
+import android.os.Bundle
 import android.os.Parcelable
+import androidx.navigation.NavType
 import com.kevinvi.common.UiModel
 import com.kevinvi.common.extension.empty
+import com.kevinvi.common.navigation.NavigationUtils
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import java.net.URLDecoder
 
 @Parcelize
+@Serializable
 data class FavItemUi(
 	val id: String = String.empty,
 	val type: String = String.empty,
@@ -16,10 +23,11 @@ data class FavItemUi(
 	var language: String? = String.empty,
 	var createdAt: String? = String.empty,
 	var updatedAt: String? = String.empty,
-	var progression: Int? = 0,
-	var lastEntry: Int? = 0,
+	var progression: Int = 0,
+	var lastEntry: Int = 0,
 	var notification: Boolean = true,
 	var isFinished: Boolean = false,
+	var isFav: Boolean = false,
 	var linked: String? = String.empty,
 ) : UiModel, Parcelable {
 	companion object {
@@ -37,7 +45,22 @@ data class FavItemUi(
 			lastEntry = 0,
 			notification = true,
 			isFinished = false,
+			isFav = false,
 			linked = String.empty,
 		)
+	}
+}
+
+class AssetParamTypeDetail : NavType<FavItemUi>(isNullableAllowed = false) {
+	override fun get(bundle: Bundle, key: String): FavItemUi? {
+		return bundle.getParcelable(key)
+	}
+
+	override fun parseValue(value: String): FavItemUi {
+		return Json { ignoreUnknownKeys = true }.decodeFromString<FavItemUi>(URLDecoder.decode(value, NavigationUtils.URL_ENCODING))
+	}
+
+	override fun put(bundle: Bundle, key: String, value: FavItemUi) {
+		bundle.putParcelable(key, value)
 	}
 }

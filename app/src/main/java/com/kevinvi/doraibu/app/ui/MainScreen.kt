@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,10 +40,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.kevinvi.anime.mapper.AnimeItemMapper
 import com.kevinvi.anime.ui.AnimeSearchResult
 import com.kevinvi.doraibu.app.MainActivityViewModel
-import com.kevinvi.doraibu.app.navigation.navigateToAnimeDetails
-import com.kevinvi.doraibu.app.navigation.navigateToScanDetails
+import com.kevinvi.doraibu.app.navigation.navigateToDetails
+import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanSearchResult
 import com.kevinvi.tome.ui.TomeSearchResult
 import com.kevinvi.ui.Empty
@@ -56,8 +58,8 @@ fun MainScreen(
 ) {
 
 	val viewModel: MainActivityViewModel = hiltViewModel()
-	var text by remember { mutableStateOf("") }
-	var searchLauched by remember { mutableStateOf(false) }
+	var text by rememberSaveable { mutableStateOf("") }
+	var searchLauched by rememberSaveable { mutableStateOf(false) }
 	val search by viewModel.stateData.collectAsStateWithLifecycle()
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val focusManager = LocalFocusManager.current
@@ -124,7 +126,7 @@ fun MainScreen(
 								ScanSearchResult(
 									it,
 									onItemClick = {
-										navController.navigateToScanDetails(it)
+										navController.navigateToDetails(ScanItemMapper.mapToDetail(it))
 									}
 								)
 							}
@@ -151,7 +153,8 @@ fun MainScreen(
 								AnimeSearchResult(
 									it,
 									onItemClick = {
-										navController.navigateToAnimeDetails(it)
+										Log.d("TAG", "MainScreen: data $it")
+										navController.navigateToDetails(AnimeItemMapper.mapToDetail(it))
 									}
 								)
 							}

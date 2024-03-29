@@ -12,10 +12,13 @@ import com.kevinvi.anime.ui.AnimeItemUi
 import com.kevinvi.anime.ui.AssetParamType
 import com.kevinvi.common.navigation.NavigationUtils.URL_ENCODING
 import com.kevinvi.common.navigation.navigationBottomBar
+import com.kevinvi.data.room.mapper.FavMapper
+import com.kevinvi.doraibu.app.ui.DetailItemUi
 import com.kevinvi.doraibu.app.ui.FavListScreen
 import com.kevinvi.doraibu.app.ui.MainScreen
 import com.kevinvi.scan.ui.AssetParamTypeScan
 import com.kevinvi.doraibu.app.ui.ScanDetailItemUi
+import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanItemDataUi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToJsonElement
@@ -84,9 +87,9 @@ fun NavGraphBuilder.addFavRoute(navController: NavHostController) {
 				},
 			),
 		) {
-			it.arguments?.getParcelable<ScanItemDataUi>("data")?.let { it1 ->
-				ScanDetailItemUi(
-					it1,
+			it.arguments?.getParcelable<ScanItemDataUi>("data")?.let { scanItem ->
+				DetailItemUi(
+					ScanItemMapper.mapToDetail(scanItem),
 					onBackClick = {
 						navController.navigateUp()
 					},

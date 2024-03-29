@@ -1,9 +1,13 @@
 package com.kevinvi.scan.mapper
 
+import android.os.FileUtils
+import com.kevinvi.common.TypeUi
 import com.kevinvi.common.data.MapperList
 import com.kevinvi.common.extension.empty
+import com.kevinvi.common.utils.IdFavoriteUtils
 import com.kevinvi.scan.data.model.ScanData
 import com.kevinvi.scan.data.model.ScanDescription
+import com.kevinvi.scan.data.model.ScanDetailItem
 import com.kevinvi.scan.data.model.ScanItem
 import com.kevinvi.scan.data.model.ScanRelationships
 import com.kevinvi.scan.ui.ScanItemDataUi
@@ -12,13 +16,13 @@ import com.kevinvi.ui.model.FavItemUi
 
 object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 
-	fun mapToDetail(item: ScanItem) = FavItemUi(
-		lastEntry = item.data.first().attributes?.chapter?.toInt(),
-		createdAt = item.data.first().attributes?.createdAt,
-		updatedAt = item.data.first().attributes?.updatedAt,
-		linked = item.data.first().attributes?.externalUrl,
+	fun mapToDetail(item: ScanDetailItem) = FavItemUi(
 
-		)
+		lastEntry = item.data.firstOrNull()?.attributes?.chapter?.toDouble()?.toInt() ?: 0,
+		createdAt = item.data.firstOrNull()?.attributes?.createdAt,
+		updatedAt = item.data.firstOrNull()?.attributes?.updatedAt,
+		linked = item.data.firstOrNull()?.attributes?.externalUrl,
+	)
 
 	override fun mapToUi(item: ScanItem) = ScanItemUi(
 		result = item.result,
@@ -58,4 +62,12 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 	override fun mapToData(item: ScanItemUi): ScanItem {
 		TODO("Not yet implemented")
 	}
+
+	fun mapToDetail(scanItem: ScanItemDataUi) = FavItemUi(
+		id = IdFavoriteUtils().buildId(scanItem.id, TypeUi.SCAN.name),
+		type = TypeUi.SCAN.name,
+		title = scanItem.title,
+		description = scanItem.description,
+		imageUrl = scanItem.image,
+	)
 }

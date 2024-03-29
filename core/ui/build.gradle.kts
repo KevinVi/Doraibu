@@ -1,6 +1,8 @@
 plugins {
 	alias(libs.plugins.doraibu.android.library)
 	alias(libs.plugins.doraibu.android.library.compose)
+	alias(libs.plugins.doraibu.android.feature)
+	alias(libs.plugins.doraibu.android.feature.compose)
 	id("kotlin-parcelize")
 
 	kotlin("plugin.serialization") version libs.versions.kotlin.get()
@@ -36,7 +38,11 @@ dependencies {
 	implementation(libs.androidx.core.ktx)
 	// Material 3
 	implementation(libs.androidx.compose.material3)
+	implementation(libs.androidx.compose.animation)
+	implementation(libs.androidx.compose.animation.graphics)
 
+
+	implementation(libs.bundles.ktor)
 
 	implementation(project(":core:common"))
 

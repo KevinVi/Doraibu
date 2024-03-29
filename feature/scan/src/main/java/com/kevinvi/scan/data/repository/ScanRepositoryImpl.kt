@@ -1,6 +1,7 @@
 package com.kevinvi.scan.data.repository
 
 import android.util.Log
+import com.kevinvi.scan.data.model.ScanDetailItem
 import com.kevinvi.scan.data.model.ScanItem
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -24,11 +25,12 @@ class ScanRepositoryImpl @Inject constructor() : ScanRepository {
 
 	}
 
-	override suspend fun getLastestChapter(id: String) : ScanItem{
+	override suspend fun getLastestChapter(id: String) : ScanDetailItem{
 		val client = HttpClient(Android)
 		val response: HttpResponse = client.get("https://api.mangadex.org/manga/$id/feed?translatedLanguage[]=fr&order[chapter]=desc&limit=1&includes[]=cover_art")
 		val responseBody = response.bodyAsText()
-		return Json { ignoreUnknownKeys = true }.decodeFromString<ScanItem>(responseBody)
+		Log.d("TAG", "getLastestChapter: $responseBody")
+		return Json { ignoreUnknownKeys = true }.decodeFromString<ScanDetailItem>(responseBody)
 	}
 
 	override fun getImage(id: String, covertArt: String) {
