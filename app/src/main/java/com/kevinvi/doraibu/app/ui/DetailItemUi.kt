@@ -1,10 +1,14 @@
 package com.kevinvi.doraibu.app.ui
 
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -13,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,15 +35,17 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.kevinvi.common.extension.takeIfNotNullOrBlank
 import com.kevinvi.doraibu.app.DetailViewModel
+import com.kevinvi.ui.Dimens.NORMAL_SPACING
 import com.kevinvi.ui.components.ExpandableMangaDescription
 import com.kevinvi.ui.model.FavItemUi
 
@@ -60,21 +67,28 @@ private fun DetailContent(
 	onBackClick: () -> Unit,
 	viewModel: DetailViewModel = hiltViewModel(),
 ) {
+	val itemData by viewModel.stateData
 	LaunchedEffect(key1 = Unit) {
 		viewModel.getDetail(item)
 	}
-	val itemData by viewModel.stateData.collectAsStateWithLifecycle()
-	var isFavorite by remember { mutableStateOf(itemData.item.isFav) }
+	Log.d("TAG", "DetailContent hhhhhh: ${itemData}")
 
-	var sliderPosition by remember { mutableFloatStateOf(0f) }
+	var sliderPosition by remember { mutableFloatStateOf(itemData.item.progression.toFloat()) }
+
 	Scaffold(
 		topBar = {
 			TopAppBar(
 				title = {
-					Text(text = itemData.item.type)
+					itemData.item.title?.let {
+						Text(
+							text = it, overflow = TextOverflow.Ellipsis
+						)
+					}
 				},
 				navigationIcon = {
-					IconButton(onClick = onBackClick) {
+					IconButton(onClick = onBackClick.also {
+						//viewModel.saveProgression(itemData.item.id, sliderPosition.toInt())
+					}) {
 						Icon(
 							imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
 							contentDescription = null,
@@ -88,21 +102,18 @@ private fun DetailContent(
 				actions = {
 					IconButton(
 						onClick = {
-							if (!isFavorite) {
-								isFavorite = true
-								itemData.item.isFav = true
+							if (!itemData.isFav) {
 								viewModel.saveFav(
 									itemData.item
 								)
 							} else {
 								viewModel.deleteFav(itemData.item.id)
-								isFavorite = false
-								itemData.item.isFav = false
 							}
 						},
 					) {
+						Log.d("TAG", "  getDetail DetailContent: ${itemData.isFav}")
 						Icon(
-							imageVector = when (isFavorite) {
+							imageVector = when (itemData.isFav) {
 								true -> Icons.Rounded.Bookmark
 								else -> Icons.Rounded.BookmarkBorder
 							},
@@ -126,11 +137,11 @@ private fun DetailContent(
 				AsyncImage(
 					model = it,
 					contentDescription = null,
-					contentScale = ContentScale.Crop,
+					contentScale = ContentScale.FillWidth,
 					modifier = Modifier.aspectRatio(16f / 9f)
 				)
 			}
-			itemData.item.title.takeIfNotNullOrBlank()?.let {
+			itemData.item.type.takeIfNotNullOrBlank()?.let {
 				Text(text = it, Modifier.padding(10.dp))
 			}
 
@@ -138,10 +149,8 @@ private fun DetailContent(
 				ExpandableMangaDescription(false, it)
 			}
 
-			itemData.item.lastEntry.toString().takeIfNotNullOrBlank()?.let {
-				Text(text = it, Modifier.padding(10.dp))
-			}
 			Log.d("TAG", "DetailContent: $sliderPosition && ${itemData.item.progression.toFloat()}")
+			sliderPosition = itemData.item.progression.toFloat()
 			if (itemData.item.lastEntry > 0) {
 				Column {
 					Log.d("TAG", "DetailContent: ${itemData.item.lastEntry.toFloat()}")
@@ -159,7 +168,27 @@ private fun DetailContent(
 						steps = itemData.item.lastEntry,
 						valueRange = 0f..itemData.item.lastEntry.toFloat()
 					)
-					Text(text = sliderPosition.toInt().toString())
+
+					Box(modifier = Modifier.fillMaxWidth()) {
+						Text(modifier = Modifier.align(Alignment.CenterStart), text = "0")
+						Text(modifier = Modifier.align(Alignment.CenterEnd), text = itemData.item.lastEntry.toString())
+					}
+
+					Row(
+						modifier = Modifier
+							.fillMaxWidth(),
+						verticalAlignment = Alignment.CenterVertically,
+						horizontalArrangement = Arrangement.Center
+					) {
+						Button(onClick = { sliderPosition-- }) {
+							Text("-")
+						}
+						Text("${sliderPosition.toInt()}", Modifier.padding(NORMAL_SPACING))
+
+						Button(onClick = { sliderPosition++ }) {
+							Text("+")
+						}
+					}
 				}
 			}
 

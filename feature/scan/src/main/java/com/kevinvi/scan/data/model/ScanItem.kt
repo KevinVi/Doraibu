@@ -26,6 +26,9 @@ data class ScanAttributes(
 	val chapter: String?= null,
 	val translatedLanguage: String?= null,
 	val externalUrl: String?= null,
+	val status: String?= null,
+	val lastVolume: String?= null,
+	val lastChapter: String?= null,
 )
 
 @Serializable

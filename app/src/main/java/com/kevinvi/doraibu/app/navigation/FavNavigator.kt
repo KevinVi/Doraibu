@@ -17,7 +17,6 @@ import com.kevinvi.doraibu.app.ui.DetailItemUi
 import com.kevinvi.doraibu.app.ui.FavListScreen
 import com.kevinvi.doraibu.app.ui.MainScreen
 import com.kevinvi.scan.ui.AssetParamTypeScan
-import com.kevinvi.doraibu.app.ui.ScanDetailItemUi
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanItemDataUi
 import kotlinx.serialization.json.Json

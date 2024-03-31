@@ -1,5 +1,6 @@
 package com.kevinvi.data.room.repository
 
+import android.util.Log
 import com.kevinvi.data.room.dao.FavDao
 import com.kevinvi.data.room.mapper.FavMapper
 import com.kevinvi.ui.model.FavItemUi
@@ -11,10 +12,13 @@ class FavRepositoryImpl @Inject constructor(
 	private val favDao: FavDao,
 ) : FavRepository {
 	override fun getAll(): Flow<List<FavItemUi>> = favDao.getAll().map {
+
+		Log.d("TAG", "getAll: HEHEHEHEHE getDetail")
 		FavMapper.mapListToData(it)
 	}
 
 	override fun getById(id: String): Flow<FavItemUi?> = favDao.getById(id).map {
+		Log.d("TAG", "getById: getDetail WHYYYYY")
 		it?.let { FavMapper.mapToData(it) }
 	}
 

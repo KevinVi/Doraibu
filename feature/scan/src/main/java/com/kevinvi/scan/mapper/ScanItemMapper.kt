@@ -4,6 +4,7 @@ import android.os.FileUtils
 import com.kevinvi.common.TypeUi
 import com.kevinvi.common.data.MapperList
 import com.kevinvi.common.extension.empty
+import com.kevinvi.common.extension.isNotNullOrEmpty
 import com.kevinvi.common.utils.IdFavoriteUtils
 import com.kevinvi.scan.data.model.ScanData
 import com.kevinvi.scan.data.model.ScanDescription
@@ -35,7 +36,9 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 		description = getDescription(data.attributes?.description),
 		createdAt = data.attributes?.createdAt,
 		updatedAt = data.attributes?.updatedAt,
-		image = getImage(data.id, getCoverArt(data.relationships))
+		image = getImage(data.id, getCoverArt(data.relationships)),
+		lastChapter = data.attributes?.lastChapter ?: String.empty,
+		isFinished = data.attributes?.status == "completed"
 
 	)
 
@@ -69,5 +72,7 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 		title = scanItem.title,
 		description = scanItem.description,
 		imageUrl = scanItem.image,
+		lastEntry = if (scanItem.lastChapter.isNotNullOrEmpty()) scanItem.lastChapter!!.toDouble().toInt() else 0,
+		isFinished = scanItem.isFinished
 	)
 }

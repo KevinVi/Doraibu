@@ -32,6 +32,8 @@ data class ScanItemDataUi(
 	val createdAt: String?,
 	val updatedAt: String?,
 	val image: String?,
+	val lastChapter: String? = String.empty,
+	val isFinished: Boolean ,
 ) : UiModel, Parcelable {
 
 	companion object {
@@ -42,6 +44,8 @@ data class ScanItemDataUi(
 			createdAt = null,
 			updatedAt = null,
 			image = null,
+			lastChapter  = "",
+			isFinished = false
 		)
 	}
 }

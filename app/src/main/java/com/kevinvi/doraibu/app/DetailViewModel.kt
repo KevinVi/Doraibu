@@ -1,6 +1,9 @@
 package com.kevinvi.doraibu.app
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kevinvi.anime.data.model.AnimeEpisodesItem
@@ -16,10 +19,10 @@ import com.kevinvi.tome.data.repository.TomeRepository
 import com.kevinvi.ui.model.FavItemUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,40 +34,55 @@ class DetailViewModel @Inject constructor(
 	val tomeRepository: TomeRepository,
 ) : ViewModel() {
 
-	private var _stateData = MutableStateFlow(DetailUiState())
+	private var _stateData: MutableState<DetailUiState> = mutableStateOf(
+		DetailUiState(
+			FavItemUi.EMPTY,
+			true,
+			false
+		),
+	)
 
-	val stateData: StateFlow<DetailUiState>
+	val stateData: State<DetailUiState>
 		get() = _stateData
 
-	fun getDetail(favItem: FavItemUi) {
-		_stateData.update { it.copy(loading = true) }
+	fun getPosition(id: String): Float {
 		viewModelScope.launch(Dispatchers.IO) {
-			Log.d("TAG", "getDetail: coucou ")
-			favRepository.getById(favItem.id).mapNotNull { item ->
+			favRepository.getById(id).mapNotNull {
 
-				Log.d("TAG", "getDetail: coucou 1 $item ")
-				_stateData.update {
-					it.copy(item = item ?: FavItemUi.EMPTY)
-				}
 			}
+		}
+		return 0f
+	}
+
+	fun getDetail(favItem: FavItemUi) {
+		_stateData.value = _stateData.value.copy(loading = true)
+		favRepository.getById(favItem.id).mapNotNull { item ->
+			if (item != null) {
+				_stateData.value = _stateData.value.copy(item = item, isFav = true)
+			}
+		}.stateIn(
+			scope = viewModelScope,
+			started = SharingStarted.Eagerly,
+			initialValue = FavListUiState.Loading,
+		)
+		viewModelScope.launch(Dispatchers.IO) {
 			//else
 			val id = IdFavoriteUtils().getIdFromFavorite(favItem.id)
 			when (favItem.type) {
 				TypeUi.SCAN.name -> {
 					//call scan
 
-					Log.d("TAG", "getDetail: coucou scan ")
-					scanRepository.getLastestChapter(id).let {
-						val scan = ScanItemMapper.mapToDetail(it)
-						favItem.createdAt = scan.createdAt
-						favItem.updatedAt = scan.updatedAt
-						favItem.lastEntry = scan.lastEntry
-						favItem.linked = scan.linked
-						_stateData.update {
-							Log.d("TAG", "getDetail: coucou scan 1 $favItem")
-							it.copy(item = favItem)
+					Log.d("TAG", "getDetail:4 coucou scan ")
+					if (!favItem.isFinished) {
+						scanRepository.getLastestChapter(id).let {
+							val scan = ScanItemMapper.mapToDetail(it)
+							favItem.createdAt = scan.createdAt
+							favItem.updatedAt = scan.updatedAt
+							favItem.lastEntry = scan.lastEntry
+							favItem.linked = scan.linked
 						}
 					}
+					_stateData.value = _stateData.value.copy(item = favItem)
 				}
 
 				TypeUi.ANIME.name -> {
@@ -90,16 +108,20 @@ class DetailViewModel @Inject constructor(
 	fun saveFav(item: FavItemUi) {
 		viewModelScope.launchIO {
 			favRepository.save(item)
+			_stateData.value = _stateData.value.copy(isFav = true)
+
 		}
 	}
 
 	fun deleteFav(id: String) {
 		viewModelScope.launchIO {
 			favRepository.delete(id)
+			_stateData.value = _stateData.value.copy(isFav = false)
+
 		}
 	}
 
-	fun saveProgression(id: String,progression: Int) {
+	fun saveProgression(id: String, progression: Int) {
 		viewModelScope.launchIO {
 			favRepository.updateProgression(id, progression)
 		}
@@ -108,16 +130,15 @@ class DetailViewModel @Inject constructor(
 	fun setupLastAnimeEpisode(favItem: FavItemUi, episodes: AnimeEpisodesItem) {
 		val anime = AnimeItemMapper.mapToEpisodeDetail(episodes)
 		favItem.lastEntry = anime.lastEntry
-		_stateData.update {
-			Log.d("TAG", "getDetail: coucou scan 1 $favItem")
-			it.copy(item = favItem)
-		}
+		_stateData.value = _stateData.value.copy(item = favItem)
+
 	}
 }
 
 data class DetailUiState(
 	val item: FavItemUi = FavItemUi.EMPTY,
 	val loading: Boolean = true,
+	val isFav: Boolean = false,
 ) {
 
 }
