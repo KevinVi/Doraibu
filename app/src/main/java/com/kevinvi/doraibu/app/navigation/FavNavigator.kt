@@ -34,15 +34,7 @@ private const val FAV_DETAIL_TOME_ROUTE = "detail_tome"
 private const val FAV_LIST_ARG = "type"
 private const val FAV_DETAILS_ARG = "id"
 
-internal class FavDetailsArg(val id: String) {
-	constructor(savedStateHandle: SavedStateHandle) :
-		this(
-			URLDecoder.decode(
-				checkNotNull(savedStateHandle[FAV_DETAILS_ARG]),
-				URL_ENCODING,
-			),
-		)
-}
+
 
 fun NavController.navigateToFav(navOptions: NavOptions) {
 	navigate(FAV_ROUTE, navOptions)

@@ -34,5 +34,5 @@ class FavViewModel @Inject constructor(
 
 sealed interface FavListUiState {
 	data object Loading : FavListUiState
-	data class Success(val list: List<FavItemUi>) : FavListUiState
+	data class Success(var list: List<FavItemUi>) : FavListUiState
 }

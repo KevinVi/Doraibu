@@ -26,8 +26,6 @@ sealed class BottomNavigationScreen(
 		selectedIcon = DrawableResIcon(search)
 	)
 
-
-
 	data object Settings : BottomNavigationScreen(
 		route = "",
 		nameResourceId = R.string.settings,

@@ -45,18 +45,10 @@ class DetailViewModel @Inject constructor(
 	val stateData: State<DetailUiState>
 		get() = _stateData
 
-	fun getPosition(id: String): Float {
-		viewModelScope.launch(Dispatchers.IO) {
-			favRepository.getById(id).mapNotNull {
-
-			}
-		}
-		return 0f
-	}
 
 	fun getDetail(favItem: FavItemUi) {
 		_stateData.value = _stateData.value.copy(loading = true)
-		favRepository.getById(favItem.id).mapNotNull { item ->
+		favRepository.getById(favItem.id).map { item ->
 			if (item != null) {
 				_stateData.value = _stateData.value.copy(item = item, isFav = true)
 			}

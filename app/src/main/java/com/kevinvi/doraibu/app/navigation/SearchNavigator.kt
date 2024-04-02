@@ -64,34 +64,23 @@ fun NavGraphBuilder.addSearchRoute(navController: NavHostController) {
 		composable("$BASE_SEARCH_ROUTE/$SEARCH_ROUTE") {
 			MainScreen(navController)
 		}
-
-		composable(
-			"$SEARCH_DETAIL_SCAN_ROUTE/{data}",
-			arguments = listOf(
-				navArgument("data") {
-					type = AssetParamTypeDetail()
+	}
+	composable(
+		"$SEARCH_DETAIL_SCAN_ROUTE/{data}",
+		arguments = listOf(
+			navArgument("data") {
+				type = AssetParamTypeDetail()
+			},
+		),
+	) {
+		it.arguments?.getParcelable<FavItemUi>("data")?.let { item ->
+			DetailItemUi(
+				item,
+				onBackClick = {
+					navController.navigateUp()
 				},
-			),
-		) {
-			it.arguments?.getParcelable<FavItemUi>("data")?.let { item ->
-				DetailItemUi(
-					item,
-					onBackClick = {
-						navController.navigateUp()
-					},
-				)
-			}
+			)
 		}
-
-		// composable(
-		// 	route = "$SEARCH_LIST_ROUTE/{$SEARCH_LIST_ARG}",
-		// 	arguments = listOf(
-		// 		navArgument(SEARCH_LIST_ARG) {
-		// 			type = NavType.StringType
-		// 		},
-		// 	),
-		// ) {
-		// 	SearchListScreen(navController)
 	}
 }
 

@@ -73,7 +73,6 @@ private fun DetailContent(
 	}
 	Log.d("TAG", "DetailContent hhhhhh: ${itemData}")
 
-	var sliderPosition by remember { mutableFloatStateOf(itemData.item.progression.toFloat()) }
 
 	Scaffold(
 		topBar = {
@@ -149,8 +148,9 @@ private fun DetailContent(
 				ExpandableMangaDescription(false, it)
 			}
 
+			var sliderPosition by remember(itemData.item.progression) { mutableFloatStateOf(itemData.item.progression.toFloat()) }
 			Log.d("TAG", "DetailContent: $sliderPosition && ${itemData.item.progression.toFloat()}")
-			sliderPosition = itemData.item.progression.toFloat()
+			//sliderPosition = itemData.item.progression.toFloat()
 			if (itemData.item.lastEntry > 0) {
 				Column {
 					Log.d("TAG", "DetailContent: ${itemData.item.lastEntry.toFloat()}")
@@ -159,6 +159,7 @@ private fun DetailContent(
 						onValueChange = {
 							sliderPosition = it
 							viewModel.saveProgression(itemData.item.id, it.toInt())
+							itemData.item.lastEntry = it.toInt()
 						},
 						colors = SliderDefaults.colors(
 							thumbColor = MaterialTheme.colorScheme.secondary,
