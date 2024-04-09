@@ -1,7 +1,6 @@
 package com.kevinvi.doraibu.app.ui
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,12 +39,11 @@ import androidx.navigation.NavHostController
 import com.kevinvi.doraibu.app.FavListUiState
 import com.kevinvi.doraibu.app.FavViewModel
 import com.kevinvi.doraibu.app.navigation.navigateToDetails
+import com.kevinvi.doraibu.app.store.FavDataStore
 import com.kevinvi.ui.Dimens.BIG_SPACING
 import com.kevinvi.ui.Dimens.NORMAL_SPACING
 import com.kevinvi.ui.Loader
 import com.kevinvi.ui.model.FavItemUi
-import okhttp3.internal.filterList
-import java.util.Locale
 
 @Composable
 fun FavListScreen(
@@ -53,9 +51,14 @@ fun FavListScreen(
 	viewModel: FavViewModel = hiltViewModel(),
 ) {
 	val favListUiState by viewModel.favUiState.collectAsStateWithLifecycle()
+	val gridDisplay by viewModel.getDisplay.collectAsStateWithLifecycle(
+		initialValue = true,
+	)
 	FavListScreen(
 		favListUiState = favListUiState,
-		navController = navController
+		navController = navController,
+		gridDisplay = gridDisplay
+
 	)
 }
 
@@ -65,10 +68,14 @@ fun FavListScreen(
 fun FavListScreen(
 	favListUiState: FavListUiState,
 	navController: NavHostController,
+	gridDisplay: Boolean,
 ) {
 	var isGridOn by remember {
-		mutableStateOf(true)
+		mutableStateOf(
+			gridDisplay
+		)
 	}
+
 	var text by rememberSaveable { mutableStateOf("") }
 	var favItems by rememberSaveable { mutableStateOf(emptyList<FavItemUi>()) }
 	var favItemsComplete by rememberSaveable { mutableStateOf(emptyList<FavItemUi>()) }
@@ -130,6 +137,7 @@ fun FavListScreen(
 			}
 
 			when (favListUiState) {
+
 				FavListUiState.Loading -> {
 					Loader(true)
 				}
@@ -142,8 +150,10 @@ fun FavListScreen(
 
 							if (isGridOn) {
 								DisplayGrid(list = favItemsComplete, navController)
+								FavDataStore.saveListPosition(navController.context, false)
 							} else {
 								DisplayList(list = favItemsComplete, navController)
+								FavDataStore.saveListPosition(navController.context, true)
 							}
 						}
 
@@ -178,14 +188,13 @@ fun DisplayGrid(
 		modifier = Modifier.fillMaxSize(),
 	) {
 		items(
-			count = list.size,
-		) { index ->
-
+			list,
+			key = { it.id }
+		) { itemUi ->
 			FavListItem(
-				item = list[index],
-				onItemClick = { navController.navigateToDetails(list[index]) },
+				item = itemUi,
+				onItemClick = { navController.navigateToDetails(itemUi) },
 			)
-
 		}
 	}
 }
@@ -212,7 +221,7 @@ fun DisplayList(
 			list,
 			key = { it.id }
 		) { itemUi ->
-			FavListItem(
+			FavSingleUi(
 				item = itemUi,
 				onItemClick = { navController.navigateToDetails(itemUi) },
 			)
