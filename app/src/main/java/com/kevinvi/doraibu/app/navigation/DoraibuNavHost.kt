@@ -20,5 +20,6 @@ fun DoraibuNavHost(
 	) {
 		addFavRoute(navController)
 		addSearchRoute(navController)
+		addSettingsRoute(navController)
 	}
 }

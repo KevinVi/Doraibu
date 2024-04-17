@@ -1,6 +1,5 @@
 package com.kevinvi.doraibu.app.navigation
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -10,19 +9,12 @@ import androidx.navigation.navArgument
 import com.kevinvi.anime.ui.AnimeDetailItemUi
 import com.kevinvi.anime.ui.AnimeItemUi
 import com.kevinvi.anime.ui.AssetParamType
-import com.kevinvi.common.navigation.NavigationUtils.URL_ENCODING
 import com.kevinvi.common.navigation.navigationBottomBar
-import com.kevinvi.data.room.mapper.FavMapper
 import com.kevinvi.doraibu.app.ui.DetailItemUi
 import com.kevinvi.doraibu.app.ui.FavListScreen
-import com.kevinvi.doraibu.app.ui.MainScreen
 import com.kevinvi.scan.ui.AssetParamTypeScan
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanItemDataUi
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
-import java.net.URLDecoder
-import java.net.URLEncoder
 
 const val BASE_FAV_ROUTE = "fav"
 

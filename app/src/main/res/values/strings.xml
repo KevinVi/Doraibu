@@ -5,4 +5,10 @@
   <string name="settings">Settings</string>
   <string name="title_dashboard">Dashboard</string>
   <string name="title_notifications">Notifications</string>
+
+
+  <string name="settings_dark_mode_label">Mode sombre</string>
+  <string name="settings_dark_mode_system">Système</string>
+  <string name="settings_dark_mode_dark">Sombre</string>
+  <string name="settings_dark_mode_light">Clair</string>
 </resources>

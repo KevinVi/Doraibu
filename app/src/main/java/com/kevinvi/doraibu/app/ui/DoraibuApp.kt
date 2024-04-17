@@ -1,5 +1,7 @@
 package com.kevinvi.doraibu.app.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -24,18 +26,18 @@ import com.kevinvi.ui.Icon
 fun DoraibuApp(
     content: @Composable (PaddingValues, DoraibuNavigator) -> Unit,
 ) {
-    val jetpackNavigator = rememberDoraibuNavigator()
+    val doraibuNavigator = rememberDoraibuNavigator()
 
-    val navBackStackEntry by jetpackNavigator.navController.currentBackStackEntryAsState()
+    val navBackStackEntry by doraibuNavigator.navController.currentBackStackEntryAsState()
 
     Scaffold(
-        content = { content(it, jetpackNavigator) },
+        content = { content(it, doraibuNavigator) },
         bottomBar = {
             BottomNavigationBar(
                 items = DoraibuNavigator.destinations,
                 currentDestination = navBackStackEntry?.destination,
             ) { screen ->
-                jetpackNavigator.navigateToScreen(screen)
+                doraibuNavigator.navigateToScreen(screen)
             }
         },
     )

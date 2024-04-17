@@ -19,7 +19,7 @@ object RoomModule {
 		Room.databaseBuilder(
 			context = context,
 			klass = DoraibuRoomDatabase::class.java,
-			name = "jetpack_database",
+			name = "doraibu_database",
 		).build()
 
 	@Singleton

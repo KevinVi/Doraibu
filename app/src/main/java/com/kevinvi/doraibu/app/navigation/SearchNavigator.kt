@@ -11,7 +11,7 @@ import androidx.navigation.navArgument
 import com.kevinvi.common.navigation.NavigationUtils.URL_ENCODING
 import com.kevinvi.common.navigation.navigationBottomBar
 import com.kevinvi.doraibu.app.ui.DetailItemUi
-import com.kevinvi.doraibu.app.ui.MainScreen
+import com.kevinvi.doraibu.app.ui.SearchScreen
 import com.kevinvi.ui.model.AssetParamTypeDetail
 import com.kevinvi.ui.model.FavItemUi
 import kotlinx.serialization.json.Json
@@ -62,7 +62,7 @@ fun NavGraphBuilder.addSearchRoute(navController: NavHostController) {
 		route = BASE_SEARCH_ROUTE,
 	) {
 		composable("$BASE_SEARCH_ROUTE/$SEARCH_ROUTE") {
-			MainScreen(navController)
+			SearchScreen(navController)
 		}
 	}
 	composable(

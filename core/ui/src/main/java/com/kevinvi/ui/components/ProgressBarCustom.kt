@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.buttonColors
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,8 +32,8 @@ fun ProgressBarCustom(score: Int = 0) {
 
 	val gradient = Brush.linearGradient(
 		listOf(
-			Color(0xFFF95075),
-			Color(0xFFBE6BE5)
+			MaterialTheme.colorScheme.primary,
+			MaterialTheme.colorScheme.secondaryContainer
 		)
 	)
 
@@ -49,8 +50,8 @@ fun ProgressBarCustom(score: Int = 0) {
 				width = 2.dp,
 				brush = Brush.linearGradient(
 					colors = listOf(
-						Color.Magenta,
-						Color.Magenta,
+						MaterialTheme.colorScheme.primary,
+						MaterialTheme.colorScheme.secondaryContainer,
 					)
 				),
 				shape = RoundedCornerShape(30.dp)

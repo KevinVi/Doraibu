@@ -1,34 +1,49 @@
 package com.kevinvi.doraibu.app
 
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.Text
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kevinvi.doraibu.app.navigation.DoraibuNavHost
 import com.kevinvi.doraibu.app.navigation.DoraibuNavigator
 import com.kevinvi.doraibu.app.ui.DoraibuApp
-import com.kevinvi.doraibu.app.ui.MainScreen
 import com.kevinvi.doraibu.app.ui.theme.DoraibuAppTheme
-import com.kevinvi.scan.data.repository.ScanRepositoryImpl
-import com.kevinvi.scan.mapper.ScanItemMapper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
 
 	private val viewModel: MainActivityViewModel by viewModels()
+
+	@RequiresApi(Build.VERSION_CODES.S)
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		setContent {
-			MainScreen()
 
-			DoraibuAppTheme {
+
+
+
+		setContent {
+			val uiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
+
+			val darkTheme = shouldUseDarkTheme(uiState)
+
+			// Update the dark content of the system bars to match the theme
+			DisposableEffect(darkTheme) {
+				enableEdgeToEdge()
+				onDispose {}
+			}
+			DoraibuAppTheme(
+				useDarkTheme = darkTheme,
+			)
+			{
 				DoraibuApp { innerPadding, doraibuNavigator ->
 					DoraibuNavHost(
 						navController = doraibuNavigator.navController,
@@ -40,4 +55,14 @@ class MainActivity : FragmentActivity() {
 		}
 
 	}
+}
+
+@Composable
+private fun shouldUseDarkTheme(
+	uiState: Int,
+): Boolean = when (uiState) {
+	0 -> isSystemInDarkTheme()
+	1 -> false
+	2 -> true
+	else -> false
 }

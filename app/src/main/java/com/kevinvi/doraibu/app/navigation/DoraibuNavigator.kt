@@ -29,7 +29,7 @@ class DoraibuNavigator(
         @Composable get() = when (currentDestination?.route) {
             Home.route -> Home
             Search.route -> Search
-            // Settings.route -> Settings
+            Settings.route -> Settings
             else -> startScreen
         }
 
@@ -50,9 +50,7 @@ class DoraibuNavigator(
         when (screen) {
             Home -> navController.navigateToFav(navOptions)
             Search -> navController.navigateToSearch(navOptions)
-            //Search -> navController.navigateToRss(navOptions)
-            //Settings -> navController.navigateToSettings(navOptions)
-            else -> {}
+            Settings -> navController.navigateToSettings(navOptions)
         }
     }
 

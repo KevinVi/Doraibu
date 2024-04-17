@@ -2,15 +2,12 @@ package com.kevinvi.doraibu.app.ui
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -27,11 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
@@ -42,7 +37,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.kevinvi.anime.mapper.AnimeItemMapper
 import com.kevinvi.anime.ui.AnimeSearchResult
-import com.kevinvi.doraibu.app.MainActivityViewModel
+import com.kevinvi.doraibu.app.SearchViewModel
 import com.kevinvi.doraibu.app.navigation.navigateToDetails
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanSearchResult
@@ -53,11 +48,11 @@ import com.kevinvi.ui.Loader
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(
+fun SearchScreen(
 	navController: NavHostController = rememberNavController(),
 ) {
 
-	val viewModel: MainActivityViewModel = hiltViewModel()
+	val viewModel: SearchViewModel = hiltViewModel()
 	var text by rememberSaveable { mutableStateOf("") }
 	var searchLauched by rememberSaveable { mutableStateOf(false) }
 	val search by viewModel.stateData.collectAsStateWithLifecycle()

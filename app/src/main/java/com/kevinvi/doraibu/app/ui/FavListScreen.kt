@@ -1,6 +1,7 @@
 package com.kevinvi.doraibu.app.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,13 +53,17 @@ fun FavListScreen(
 	viewModel: FavViewModel = hiltViewModel(),
 ) {
 	val favListUiState by viewModel.favUiState.collectAsStateWithLifecycle()
-	val gridDisplay by viewModel.getDisplay.collectAsStateWithLifecycle(
+	val gridDisplay = viewModel.getDisplay.collectAsStateWithLifecycle(
 		initialValue = true,
 	)
+	Log.d("TAG", "FavListScreen: init $gridDisplay")
 	FavListScreen(
 		favListUiState = favListUiState,
 		navController = navController,
-		gridDisplay = gridDisplay
+		gridDisplay = gridDisplay,
+		onclick = {
+			FavDataStore.saveListPosition(navController.context, !gridDisplay.value)
+		}
 
 	)
 }
@@ -68,14 +74,9 @@ fun FavListScreen(
 fun FavListScreen(
 	favListUiState: FavListUiState,
 	navController: NavHostController,
-	gridDisplay: Boolean,
+	gridDisplay: State<Boolean>,
+	onclick: () -> Unit,
 ) {
-	var isGridOn by remember {
-		mutableStateOf(
-			gridDisplay
-		)
-	}
-
 	var text by rememberSaveable { mutableStateOf("") }
 	var favItems by rememberSaveable { mutableStateOf(emptyList<FavItemUi>()) }
 	var favItemsComplete by rememberSaveable { mutableStateOf(emptyList<FavItemUi>()) }
@@ -87,10 +88,10 @@ fun FavListScreen(
 			FloatingActionButton(
 				shape = MaterialTheme.shapes.medium,
 				onClick = {
-					isGridOn = !isGridOn
+					onclick()
 				},
 			) {
-				if (isGridOn) {
+				if (gridDisplay.value) {
 					Icon(imageVector = Icons.Default.GridView, contentDescription = "Grid")
 				} else {
 					Icon(imageVector = Icons.AutoMirrored.Default.List, contentDescription = "List")
@@ -148,12 +149,10 @@ fun FavListScreen(
 							favItemsComplete = favListUiState.list
 
 
-							if (isGridOn) {
+							if (gridDisplay.value) {
 								DisplayGrid(list = favItemsComplete, navController)
-								FavDataStore.saveListPosition(navController.context, false)
 							} else {
 								DisplayList(list = favItemsComplete, navController)
-								FavDataStore.saveListPosition(navController.context, true)
 							}
 						}
 

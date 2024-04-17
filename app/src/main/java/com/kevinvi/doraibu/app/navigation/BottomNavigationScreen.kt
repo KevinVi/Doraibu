@@ -27,7 +27,7 @@ sealed class BottomNavigationScreen(
 	)
 
 	data object Settings : BottomNavigationScreen(
-		route = "",
+		route = SETTINGS_ROUTE,
 		nameResourceId = R.string.settings,
 		selectedIcon = DrawableResIcon(settings)
 	)

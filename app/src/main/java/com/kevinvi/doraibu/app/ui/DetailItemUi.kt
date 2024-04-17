@@ -1,6 +1,11 @@
 package com.kevinvi.doraibu.app.ui
 
 import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +20,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material3.Button
@@ -29,15 +37,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,6 +59,7 @@ import com.kevinvi.common.extension.takeIfNotNullOrBlank
 import com.kevinvi.doraibu.app.DetailViewModel
 import com.kevinvi.ui.Dimens.NORMAL_SPACING
 import com.kevinvi.ui.components.ExpandableMangaDescription
+import com.kevinvi.ui.components.RepeatingButton
 import com.kevinvi.ui.model.FavItemUi
 
 @Composable
@@ -60,7 +73,7 @@ fun DetailItemUi(
 	)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun DetailContent(
 	item: FavItemUi,
@@ -71,7 +84,6 @@ private fun DetailContent(
 	LaunchedEffect(key1 = Unit) {
 		viewModel.getDetail(item)
 	}
-	Log.d("TAG", "DetailContent hhhhhh: ${itemData}")
 
 
 	Scaffold(
@@ -110,7 +122,6 @@ private fun DetailContent(
 							}
 						},
 					) {
-						Log.d("TAG", "  getDetail DetailContent: ${itemData.isFav}")
 						Icon(
 							imageVector = when (itemData.isFav) {
 								true -> Icons.Rounded.Bookmark
@@ -153,13 +164,11 @@ private fun DetailContent(
 			//sliderPosition = itemData.item.progression.toFloat()
 			if (itemData.item.lastEntry > 0) {
 				Column {
-					Log.d("TAG", "DetailContent: ${itemData.item.lastEntry.toFloat()}")
 					Slider(
 						value = sliderPosition,
 						onValueChange = {
 							sliderPosition = it
 							viewModel.saveProgression(itemData.item.id, it.toInt())
-							itemData.item.lastEntry = it.toInt()
 						},
 						colors = SliderDefaults.colors(
 							thumbColor = MaterialTheme.colorScheme.secondary,
@@ -179,15 +188,16 @@ private fun DetailContent(
 						modifier = Modifier
 							.fillMaxWidth(),
 						verticalAlignment = Alignment.CenterVertically,
-						horizontalArrangement = Arrangement.Center
+						horizontalArrangement = Arrangement.Center,
 					) {
-						Button(onClick = { sliderPosition-- }) {
-							Text("-")
+
+						RepeatingButton(onClick = { sliderPosition-- }) {
+							Icon(Icons.Filled.Remove, contentDescription = null)
+
 						}
 						Text("${sliderPosition.toInt()}", Modifier.padding(NORMAL_SPACING))
-
-						Button(onClick = { sliderPosition++ }) {
-							Text("+")
+						RepeatingButton(onClick = { sliderPosition++ }) {
+							Icon(Icons.Filled.Add, contentDescription = null)
 						}
 					}
 				}

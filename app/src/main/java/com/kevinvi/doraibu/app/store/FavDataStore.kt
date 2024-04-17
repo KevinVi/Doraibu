@@ -18,6 +18,7 @@ val Context.favDataStore: DataStore<Preferences> by preferencesDataStore(name = 
 
 object FavDataStore {
 	fun isGrid(context: Context) = context.favDataStore.data.map { preferences ->
+		Log.d("TAG", "isGrid:init ${preferences[displayGrid]}")
 		preferences[displayGrid] ?: DEFAULT_VALUE
 	}
 	fun saveListPosition(context: Context, grid: Boolean) {
