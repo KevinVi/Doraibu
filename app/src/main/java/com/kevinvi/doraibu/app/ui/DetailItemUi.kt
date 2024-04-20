@@ -92,7 +92,7 @@ private fun DetailContent(
 				title = {
 					itemData.item.title?.let {
 						Text(
-							text = it, overflow = TextOverflow.Ellipsis
+							text = it, overflow = TextOverflow.Ellipsis, maxLines = 2
 						)
 					}
 				},

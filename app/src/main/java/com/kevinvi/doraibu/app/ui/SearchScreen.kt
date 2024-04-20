@@ -156,6 +156,7 @@ fun SearchScreen(
 						}
 					}
 				}
+				/*
 				Text(text = "Tome ", modifier = Modifier.padding(start = 20.dp))
 				if (search.isTomeLoading && searchLauched) {
 					Loader(true)
@@ -180,7 +181,7 @@ fun SearchScreen(
 							}
 						}
 					}
-				}
+				}*/
 
 			} else {
 				Text(

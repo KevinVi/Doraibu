@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,6 +47,7 @@ import com.kevinvi.ui.Dimens.BIG_SPACING
 import com.kevinvi.ui.Dimens.NORMAL_SPACING
 import com.kevinvi.ui.Loader
 import com.kevinvi.ui.model.FavItemUi
+import com.kevinvi.ui.noInset
 
 @Composable
 fun FavListScreen(
@@ -84,8 +86,10 @@ fun FavListScreen(
 	val keyboardController = LocalSoftwareKeyboardController.current
 	val focusManager = LocalFocusManager.current
 	Scaffold(
+		contentWindowInsets = WindowInsets.noInset,
 		floatingActionButton = {
 			FloatingActionButton(
+
 				shape = MaterialTheme.shapes.medium,
 				onClick = {
 					onclick()

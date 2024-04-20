@@ -108,9 +108,6 @@ fun SettingsScreen(
 				}
 			)
 		}
-		Button(onClick = { throw RuntimeException("Test Crash") }) {
-
-		}
 	}
 
 }
