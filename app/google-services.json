@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "228078053364",
+    "project_id": "doraibu-ae019",
+    "storage_bucket": "doraibu-ae019.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228078053364:android:eedffcaed6ba76f9f1fba1",
+        "android_client_info": {
+          "package_name": "com.kevinvi.doraibu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOTTkcgnXnoaoOH0fi8UQQGzalQQ53c-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

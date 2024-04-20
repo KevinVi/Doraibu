@@ -1,6 +1,7 @@
 plugins {
 	alias(libs.plugins.doraibu.android.application)
 	alias(libs.plugins.doraibu.android.application.compose)
+	alias(libs.plugins.doraibu.android.application.firebase)
 	alias(libs.plugins.doraibu.android.hilt)
 
 	id("kotlin-parcelize")
@@ -58,9 +59,18 @@ dependencies {
 	implementation(libs.bundles.ktor)
 
 
+	// Worker
+	implementation(libs.androidx.work.runtime.ktx)
+	// Hilt Worker
+	implementation(libs.androidx.hilt.work)
+	ksp(libs.androidx.hilt.compiler)
+
+
 	implementation(libs.androidx.navigation.fragment)
 	implementation(libs.androidx.navigation.ui)
 
+	// Accompanist permissions
+	implementation(libs.com.google.accompanist.permissions)
 
 	implementation(libs.androidx.datastore)
 	implementation(libs.androidx.datastore.preferences)

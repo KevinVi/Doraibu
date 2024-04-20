@@ -1,5 +1,6 @@
 [versions]
 activity-compose = "1.8.2"
+accompanist = "0.34.0"
 compose = "1.6.2"
 compose-bom = "2024.02.01"
 composeCompiler = "1.5.10"
@@ -9,6 +10,10 @@ coil = "2.5.0"
 core-ktx = "1.12.0"
 datastore = "1.0.0"
 desugar-jdk-libs = "2.0.4"
+firebase-bom = "32.7.2"
+firebase-crashlytics-plugin = "2.9.9"
+firebase-analytics-plugin = "21.6.2"
+google-services-plugin = "4.4.1"
 gradle-plugin = "8.3.0"
 hilt = "2.50"
 hilt-androidx = "1.2.0"
@@ -24,6 +29,7 @@ room = "2.6.1"
 navigationFragment = "2.7.7"
 navigationUi = "2.7.7"
 junit = "4.13.2"
+work = "2.9.0"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
@@ -42,8 +48,11 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compos
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+com-google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
@@ -59,6 +68,8 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -79,6 +90,8 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 androidx-navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
+firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-plugin" }
+firebase-analytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-analytics-gradle", version.ref = "firebase-analytics-plugin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -100,14 +113,18 @@ ktor = [
 android-application = { id = "com.android.application", version.ref = "gradle-plugin" }
 android-library = { id = "com.android.library", version.ref = "gradle-plugin" }
 androidx-room = { id = "androidx.room", version.ref = "room" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
+firebase-analytics = { id = "com.google.firebase.analytics", version.ref = "firebase-analytics-plugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services-plugin" }
 version-catalog-update = "nl.littlerobots.version-catalog-update:0.8.4"
 
 # Build-logic Plugins
 doraibu-android-application = { id = "doraibu.android.application", version = "unspecified" }
 doraibu-android-application-compose = { id = "doraibu.android.application.compose", version = "unspecified" }
+doraibu-android-application-firebase = { id = "doraibu.android.application.firebase", version = "unspecified" }
 doraibu-android-feature = { id = "doraibu.android.feature", version = "unspecified" }
 doraibu-android-feature-compose = { id = "doraibu.android.feature.compose", version = "unspecified" }
 doraibu-android-hilt = { id = "doraibu.android.hilt", version = "unspecified" }

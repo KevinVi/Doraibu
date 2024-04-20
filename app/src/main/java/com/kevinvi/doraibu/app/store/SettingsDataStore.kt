@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -29,6 +30,19 @@ object SettingsDataStore {
 		}
 	}
 
-	const val DEFAULT_VALUE = 0
+	fun isEnable(context: Context) = context.settingsDataStore.data.map { preferences ->
+		preferences[enableNotification] ?: DEFAULT_VALUE_NOTIFICATION
+	}
+
+	suspend fun write(context: Context, enable: Boolean) {
+		context.settingsDataStore.edit { settings ->
+			settings[enableNotification] = enable
+		}
+	}
+
+	private const val DEFAULT_VALUE_NOTIFICATION = false
+	private val enableNotification = booleanPreferencesKey("enable_notification")
+
+	private const val DEFAULT_VALUE = 0
 	private val themeSettings = intPreferencesKey("theme")
 }

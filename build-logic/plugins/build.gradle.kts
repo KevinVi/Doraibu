@@ -18,6 +18,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
@@ -39,6 +40,10 @@ gradlePlugin {
         register("androidApplicationCompose") {
             id = "doraibu.android.application.compose"
             implementationClass = "AndroidApplicationComposePlugin"
+        }
+        register("androidApplicationFirebase") {
+            id = "doraibu.android.application.firebase"
+            implementationClass = "AndroidApplicationFirebasePlugin"
         }
         register("androidFeature") {
             id = "doraibu.android.feature"
