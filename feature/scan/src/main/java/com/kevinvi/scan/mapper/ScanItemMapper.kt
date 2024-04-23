@@ -33,6 +33,7 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 	private fun mapData(data: ScanData) = ScanItemDataUi(
 		id = data.id,
 		title = getDescription(data.attributes?.title),
+		altTitles = getDescription(data.attributes?.altTitles),
 		description = getDescription(data.attributes?.description),
 		createdAt = data.attributes?.createdAt,
 		updatedAt = data.attributes?.updatedAt,
@@ -41,6 +42,13 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 		isFinished = data.attributes?.status == "completed"
 
 	)
+
+	private fun getDescription(desc: List<ScanDescription>?): String? {
+		desc?.forEach {
+			return getDescription(it)
+		}
+		return String.empty
+	}
 
 	private fun getCoverArt(relation: List<ScanRelationships>?): String {
 		relation?.forEach {
@@ -70,6 +78,7 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 		id = IdFavoriteUtils().buildId(scanItem.id, TypeUi.SCAN.name),
 		type = TypeUi.SCAN.name,
 		title = scanItem.title,
+		altTitle = scanItem.altTitles,
 		description = scanItem.description,
 		imageUrl = scanItem.image,
 		lastEntry = if (scanItem.lastChapter.isNotNullOrEmpty()) scanItem.lastChapter!!.toDouble().toInt() else 0,

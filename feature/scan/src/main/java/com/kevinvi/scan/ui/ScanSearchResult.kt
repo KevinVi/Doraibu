@@ -103,6 +103,7 @@ fun ScanItemComposable() {
 		ScanItemDataUi(
 			id = "10",
 			title = "One piece",
+			altTitles = "",
 			description = "un mec qui a un équipage et qui veut devenir roi des pirates",
 			createdAt = "date 1 ",
 			updatedAt = "data 2 ",

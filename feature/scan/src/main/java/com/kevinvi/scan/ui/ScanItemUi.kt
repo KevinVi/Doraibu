@@ -28,6 +28,7 @@ data class ScanItemUi(
 data class ScanItemDataUi(
 	val id: String,
 	val title: String?,
+	val altTitles: String?,
 	val description: String?,
 	val createdAt: String?,
 	val updatedAt: String?,
@@ -40,6 +41,7 @@ data class ScanItemDataUi(
 		val EMPTY = ScanItemDataUi(
 			id = String.empty,
 			title = null,
+			altTitles = null,
 			description = null,
 			createdAt = null,
 			updatedAt = null,

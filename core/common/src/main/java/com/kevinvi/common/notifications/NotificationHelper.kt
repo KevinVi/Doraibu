@@ -2,8 +2,10 @@ package com.kevinvi.common.notifications
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -18,10 +20,12 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 	@RequiresApi(Build.VERSION_CODES.O)
 	fun sendNewFavNotification(
 		notification: NotificationContent,
+		notificationIntent: PendingIntent,
 	) {
 		sendNotification(
 			channelId = NEW_ITEM_CATEGORY,
 			notification = notification,
+			notificationIntent
 		)
 	}
 
@@ -29,12 +33,15 @@ class NotificationHelper(context: Context) : ContextWrapper(context) {
 	fun sendNotification(
 		channelId: String,
 		notification: NotificationContent,
+		notificationIntent: PendingIntent,
 	) {
 		manageNotificationChannel(channelId)
+
 		val notificationBuilder = NotificationCompat.Builder(this, channelId)
 			.setSmallIcon(R.drawable.notification_icon)
 			.setContentTitle(getString(R.string.core_common_notification_channel_title))
 			.setContentText(notification.description)
+			.setContentIntent(notificationIntent)
 
 			.apply {
 				if (notification.description.length > MIN_DESC_LENGTH_TO_EXPEND) {

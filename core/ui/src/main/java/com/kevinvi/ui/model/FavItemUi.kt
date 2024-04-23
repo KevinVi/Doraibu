@@ -17,6 +17,7 @@ data class FavItemUi(
 	val id: String = String.empty,
 	val type: String = String.empty,
 	val title: String? = String.empty,
+	val altTitle: String? = String.empty,
 	val description: String? = String.empty,
 	val author: String? = String.empty,
 	val imageUrl: String? = String.empty,

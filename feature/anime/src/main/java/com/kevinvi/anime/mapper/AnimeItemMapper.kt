@@ -12,7 +12,7 @@ import com.kevinvi.ui.model.FavItemUi
 object AnimeItemMapper : MapperList<AnimeItem, AnimeContainer>() {
 	override fun mapToUi(item: AnimeItem) = item.data?.let {
 		AnimeContainer(
-			data = it.map { AnimeItemUi(it.node.id ?: 0, it.node.title ?: "", it.node.picture?.medium ?: "", it.node.synopsis, it.node.numEpisodes) }
+			data = it.map { AnimeItemUi(it.node.id ?: 0, it.node.title ?: "", it.node.picture?.large ?: "", it.node.synopsis, it.node.numEpisodes) }
 		)
 	} ?: AnimeContainer(emptyList())
 

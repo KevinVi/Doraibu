@@ -20,6 +20,7 @@ data class ScanDetailData(
 @Serializable
 data class ScanDetailAttributes(
 	val title: String?= null,
+	val altTitles: String?= null,
 	val description: ScanDescription?= null,
 	val createdAt: String?= null,
 	val updatedAt: String?= null,

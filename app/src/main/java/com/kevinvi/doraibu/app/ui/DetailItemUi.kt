@@ -35,6 +35,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -47,6 +48,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -55,6 +58,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.kevinvi.common.TypeUi
 import com.kevinvi.common.extension.takeIfNotNullOrBlank
 import com.kevinvi.doraibu.app.DetailViewModel
 import com.kevinvi.ui.Dimens.NORMAL_SPACING
@@ -84,73 +88,25 @@ private fun DetailContent(
 	LaunchedEffect(key1 = Unit) {
 		viewModel.getDetail(item)
 	}
+	Box(modifier = Modifier
+		.fillMaxSize()) {
 
-
-	Scaffold(
-		topBar = {
-			TopAppBar(
-				title = {
-					itemData.item.title?.let {
-						Text(
-							text = it, overflow = TextOverflow.Ellipsis, maxLines = 2
-						)
-					}
-				},
-				navigationIcon = {
-					IconButton(onClick = onBackClick.also {
-						//viewModel.saveProgression(itemData.item.id, sliderPosition.toInt())
-					}) {
-						Icon(
-							imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-							contentDescription = null,
-						)
-					}
-				},
-				colors = TopAppBarDefaults.topAppBarColors(
-					containerColor = MaterialTheme.colorScheme.surface,
-					navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-				),
-				actions = {
-					IconButton(
-						onClick = {
-							if (!itemData.isFav) {
-								viewModel.saveFav(
-									itemData.item
-								)
-							} else {
-								viewModel.deleteFav(itemData.item.id)
-							}
-						},
-					) {
-						Icon(
-							imageVector = when (itemData.isFav) {
-								true -> Icons.Rounded.Bookmark
-								else -> Icons.Rounded.BookmarkBorder
-							},
-							contentDescription = null,
-						)
-					}
-				},
-			)
-		},
-	) { paddingValues ->
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
 				.verticalScroll(rememberScrollState())
-				.padding(horizontal = 16.dp),
 		) {
 
-			Spacer(Modifier.height(paddingValues.calculateTopPadding()))
-
 			itemData.item.imageUrl.takeIfNotNullOrBlank()?.let {
+
 				AsyncImage(
 					model = it,
 					contentDescription = null,
-					contentScale = ContentScale.FillWidth,
-					modifier = Modifier.aspectRatio(16f / 9f)
+					contentScale = ContentScale.Crop,
+					modifier = Modifier.aspectRatio(2f / 3f)
 				)
 			}
+
 			itemData.item.type.takeIfNotNullOrBlank()?.let {
 				Text(text = it, Modifier.padding(10.dp))
 			}
@@ -165,6 +121,7 @@ private fun DetailContent(
 			if (itemData.item.lastEntry > 0) {
 				Column {
 					Slider(
+						modifier = Modifier.padding(start = 16.dp, end = 16.dp),
 						value = sliderPosition,
 						onValueChange = {
 							sliderPosition = it
@@ -179,7 +136,7 @@ private fun DetailContent(
 						valueRange = 0f..itemData.item.lastEntry.toFloat()
 					)
 
-					Box(modifier = Modifier.fillMaxWidth()) {
+					Box(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)) {
 						Text(modifier = Modifier.align(Alignment.CenterStart), text = "0")
 						Text(modifier = Modifier.align(Alignment.CenterEnd), text = itemData.item.lastEntry.toString())
 					}
@@ -204,6 +161,60 @@ private fun DetailContent(
 			}
 
 		}
+		TopAppBar(
+			modifier = Modifier.background(
+			Brush.linearGradient(
+				0.0f to Color.Black.copy(0.6f),
+				1.0f to  Color.Transparent,
+				start = Offset(0.0f, 210.0f),
+				end = Offset(0.0f, 300.0f)
+			)
+			),
+			title = {
+				itemData.item.title?.let {
+					Text(
+						text = it, overflow = TextOverflow.Ellipsis, maxLines = 2
+					)
+				}
+			},
+			navigationIcon = {
+				IconButton(onClick = onBackClick.also {
+					//viewModel.saveProgression(itemData.item.id, sliderPosition.toInt())
+				}) {
+					Icon(
+						imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+						contentDescription = null,
+					)
+				}
+			},
+
+			colors = TopAppBarDefaults.topAppBarColors(
+				containerColor = Color.Transparent,
+				navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+			),
+			actions = {
+				IconButton(
+					onClick = {
+						if (!itemData.isFav) {
+							viewModel.saveFav(
+								itemData.item
+							)
+						} else {
+							viewModel.deleteFav(itemData.item.id)
+						}
+					},
+				) {
+					Icon(
+						imageVector = when (itemData.isFav) {
+							true -> Icons.Rounded.Bookmark
+							else -> Icons.Rounded.BookmarkBorder
+						},
+						contentDescription = null,
+					)
+				}
+			},
+		)
+
 
 	}
 }

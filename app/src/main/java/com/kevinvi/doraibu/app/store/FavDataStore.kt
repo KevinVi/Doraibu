@@ -21,6 +21,17 @@ object FavDataStore {
 		Log.d("TAG", "isGrid:init ${preferences[displayGrid]}")
 		preferences[displayGrid] ?: DEFAULT_VALUE
 	}
+
+	fun getGridWidth(context: Context) = context.favDataStore.data.map { preferences ->
+		Log.d("TAG", "isGrid:init ${preferences[displayGridWidth]}")
+		preferences[displayGridWidth] ?: 2
+	}
+
+
+	fun getTypeElement(context: Context) = context.favDataStore.data.map { preferences ->
+		Log.d("TAG", "isGrid:init ${preferences[displayElement]}")
+		preferences[displayElement] ?: 0
+	}
 	fun saveListPosition(context: Context, grid: Boolean) {
 		CoroutineScope(Dispatchers.IO).launch {
 			Log.d("TAG", "saveListPosition: $grid")
@@ -30,7 +41,27 @@ object FavDataStore {
 		}
 	}
 
+	fun saveGridWith(context: Context, width: Int) {
+		CoroutineScope(Dispatchers.IO).launch {
+			Log.d("TAG", "saveGridWith: $width")
+			context.favDataStore.edit { fav ->
+				fav[displayGridWidth] = width
+			}
+		}
+	}
+
+	fun saveElementDisplay(context: Context, type: Int) {
+		CoroutineScope(Dispatchers.IO).launch {
+			Log.d("TAG", "saveElementDisplay: $type")
+			context.favDataStore.edit { fav ->
+				fav[displayElement] = type
+			}
+		}
+	}
+
 
 	const val DEFAULT_VALUE = false
 	private val displayGrid = booleanPreferencesKey("display_grid")
+	private val displayGridWidth = intPreferencesKey("display_grid_with")
+	private val displayElement = intPreferencesKey("display_element")
 }
