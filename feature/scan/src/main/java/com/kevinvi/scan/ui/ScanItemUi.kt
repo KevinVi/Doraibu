@@ -23,6 +23,20 @@ data class ScanItemUi(
 		)
 	}
 }
+
+@Parcelize
+data class ScanItemUiSingle(
+	val result: String,
+	val items: ScanItemDataUi,
+) : UiModel, Parcelable {
+	companion object {
+		val EMPTY = ScanItemUi(
+			result = String.empty,
+			items = emptyList()
+		)
+	}
+}
+
 @Serializable
 @Parcelize
 data class ScanItemDataUi(
@@ -35,6 +49,7 @@ data class ScanItemDataUi(
 	val image: String?,
 	val lastChapter: String? = String.empty,
 	val isFinished: Boolean ,
+	val listLinkedId: List<Pair<String,String>>
 ) : UiModel, Parcelable {
 
 	companion object {
@@ -47,7 +62,8 @@ data class ScanItemDataUi(
 			updatedAt = null,
 			image = null,
 			lastChapter  = "",
-			isFinished = false
+			isFinished = false,
+			listLinkedId = emptyList()
 		)
 	}
 }
@@ -65,3 +81,5 @@ class AssetParamTypeScan : NavType<ScanItemDataUi>(isNullableAllowed = false) {
 		bundle.putParcelable(key, value)
 	}
 }
+
+

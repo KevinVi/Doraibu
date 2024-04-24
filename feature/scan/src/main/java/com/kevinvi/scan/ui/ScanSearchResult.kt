@@ -109,7 +109,8 @@ fun ScanItemComposable() {
 			updatedAt = "data 2 ",
 			image = "https://uploads.mangadex.org/covers/68112dc1-2b80-4f20-beb8-2f2a8716a430/c3f43d5a-83c4-44bd-a117-b247019329b2.jpg",
 			lastChapter = null,
-			isFinished = false
+			isFinished = false,
+			emptyList()
 		),
 		onItemClick = {}
 	)

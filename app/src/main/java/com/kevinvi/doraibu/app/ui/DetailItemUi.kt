@@ -3,47 +3,38 @@ package com.kevinvi.doraibu.app.ui
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.Interaction
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -52,15 +43,15 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import com.kevinvi.common.TypeUi
 import com.kevinvi.common.extension.takeIfNotNullOrBlank
 import com.kevinvi.doraibu.app.DetailViewModel
+import com.kevinvi.scan.ui.ScanSearchResult
 import com.kevinvi.ui.Dimens.NORMAL_SPACING
 import com.kevinvi.ui.components.ExpandableMangaDescription
 import com.kevinvi.ui.components.RepeatingButton
@@ -136,7 +127,9 @@ private fun DetailContent(
 						valueRange = 0f..itemData.item.lastEntry.toFloat()
 					)
 
-					Box(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp)) {
+					Box(modifier = Modifier
+						.fillMaxWidth()
+						.padding(start = 16.dp, end = 16.dp)) {
 						Text(modifier = Modifier.align(Alignment.CenterStart), text = "0")
 						Text(modifier = Modifier.align(Alignment.CenterEnd), text = itemData.item.lastEntry.toString())
 					}
@@ -155,6 +148,26 @@ private fun DetailContent(
 						Text("${sliderPosition.toInt()}", Modifier.padding(NORMAL_SPACING))
 						RepeatingButton(onClick = { sliderPosition++ }) {
 							Icon(Icons.Filled.Add, contentDescription = null)
+						}
+					}
+
+					val related by viewModel.stateDataRelation.collectAsStateWithLifecycle()
+					viewModel.relations(item.listLinkedId)
+					Log.d("TAG", "DetailContent: RELATED ${related.list}")
+					LazyRow(
+						modifier = Modifier
+							.fillMaxWidth(),
+						contentPadding = PaddingValues(8.dp),
+					) {
+						items(related.list) { it ->
+							// Search result
+							ScanSearchResult(
+								it,
+								onItemClick = {
+									Log.d("TAG", "MainScreen: data $it")
+									//navController.navigateToDetails(AnimeItemMapper.mapToDetail(it))
+								}
+							)
 						}
 					}
 				}

@@ -1,6 +1,5 @@
 package com.kevinvi.scan.mapper
 
-import android.os.FileUtils
 import com.kevinvi.common.TypeUi
 import com.kevinvi.common.data.MapperList
 import com.kevinvi.common.extension.empty
@@ -10,15 +9,16 @@ import com.kevinvi.scan.data.model.ScanData
 import com.kevinvi.scan.data.model.ScanDescription
 import com.kevinvi.scan.data.model.ScanDetailItem
 import com.kevinvi.scan.data.model.ScanItem
+import com.kevinvi.scan.data.model.ScanItemSingle
 import com.kevinvi.scan.data.model.ScanRelationships
 import com.kevinvi.scan.ui.ScanItemDataUi
 import com.kevinvi.scan.ui.ScanItemUi
+import com.kevinvi.scan.ui.ScanItemUiSingle
 import com.kevinvi.ui.model.FavItemUi
 
 object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 
 	fun mapToDetail(item: ScanDetailItem) = FavItemUi(
-
 		lastEntry = item.data.firstOrNull()?.attributes?.chapter?.toDouble()?.toInt() ?: 0,
 		createdAt = item.data.firstOrNull()?.attributes?.createdAt,
 		updatedAt = item.data.firstOrNull()?.attributes?.updatedAt,
@@ -30,6 +30,11 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 		items = item.data.map { mapData(it) },
 	)
 
+	fun mapToUiRelation(item: ScanItemSingle) = ScanItemUiSingle(
+		result = item.result,
+		items = mapData(item.data),
+	)
+
 	private fun mapData(data: ScanData) = ScanItemDataUi(
 		id = data.id,
 		title = getDescription(data.attributes?.title),
@@ -39,15 +44,25 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 		updatedAt = data.attributes?.updatedAt,
 		image = getImage(data.id, getCoverArt(data.relationships)),
 		lastChapter = data.attributes?.lastChapter ?: String.empty,
-		isFinished = data.attributes?.status == "completed"
-
-	)
+		isFinished = data.attributes?.status == "completed",
+		listLinkedId = getRelations(data.relationships),
+		)
 
 	private fun getDescription(desc: List<ScanDescription>?): String? {
 		desc?.forEach {
 			return getDescription(it)
 		}
 		return String.empty
+	}
+
+	private fun getRelations(relation: List<ScanRelationships>?): List<Pair<String, String>> {
+		val relations = arrayListOf<Pair<String, String>>()
+		relation?.forEach {
+			if (it.related?.isNotEmpty() == true && it.type == "manga") {
+				relations.add(Pair(it.id, it.related))
+			}
+		}
+		return relations
 	}
 
 	private fun getCoverArt(relation: List<ScanRelationships>?): String {
@@ -82,6 +97,7 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 		description = scanItem.description,
 		imageUrl = scanItem.image,
 		lastEntry = if (scanItem.lastChapter.isNotNullOrEmpty()) scanItem.lastChapter!!.toDouble().toInt() else 0,
-		isFinished = scanItem.isFinished
+		isFinished = scanItem.isFinished,
+		listLinkedId = scanItem.listLinkedId
 	)
 }

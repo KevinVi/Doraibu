@@ -3,6 +3,7 @@ package com.kevinvi.scan.data.repository
 import android.util.Log
 import com.kevinvi.scan.data.model.ScanDetailItem
 import com.kevinvi.scan.data.model.ScanItem
+import com.kevinvi.scan.data.model.ScanItemSingle
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.request.get
@@ -22,7 +23,19 @@ class ScanRepositoryImpl @Inject constructor() : ScanRepository {
 		val responseBody = response.bodyAsText()
 		Log.d("TAG", "getMangaByName: $name")
 		return Json { ignoreUnknownKeys = true }.decodeFromString<ScanItem>(responseBody)
+	}
 
+
+	override suspend fun getMangaById(id: String): ScanItemSingle {
+
+		val client = HttpClient(Android)
+		val url = "https://api.mangadex.org/manga/$id"
+		val response: HttpResponse = client.get(url)
+
+		val responseBody = response.bodyAsText()
+		Log.d("TAG", "getMangaByName: $id")
+		Log.d("TAG", "getMangaById: $url ")
+		return Json { ignoreUnknownKeys = true }.decodeFromString<ScanItemSingle>(responseBody)
 	}
 
 	override suspend fun getLastestChapter(id: String) : ScanDetailItem{

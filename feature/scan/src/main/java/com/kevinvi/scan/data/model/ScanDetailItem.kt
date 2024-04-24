@@ -35,6 +35,7 @@ data class ScanDetailAttributes(
 data class ScanDetailRelationships(
 	val id: String,
 	val type: String? = null,
+	val related: String? = null,
 	val attributes: ScanAttributesImage?= null,
 )
 

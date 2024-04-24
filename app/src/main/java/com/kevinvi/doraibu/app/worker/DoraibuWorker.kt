@@ -29,8 +29,7 @@ class DoraibuWorker @AssistedInject constructor(
 
 		val notificationIntent = Intent(context, MainActivity::class.java)
 		notificationIntent.setFlags(
-			Intent.FLAG_ACTIVITY_CLEAR_TOP
-				or Intent.FLAG_ACTIVITY_SINGLE_TOP
+			Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 		)
 		val intent = PendingIntent.getActivity(
 			context, 0,
@@ -45,18 +44,17 @@ class DoraibuWorker @AssistedInject constructor(
 
 		Log.d("TAG", "doWork: HEHEHEHEH $result")
 		result.second.let { pair ->
-
-
-
 			val desc = pair.joinToString("\n") {
 				it.first + " à " + it.second + " nouveaux chapitres"
 			}
-			notificationHelper.sendNewFavNotification(
-				NotificationContent(
-					description = desc,
-				),
-				intent
-			)
+			if(desc.isNotEmpty()) {
+				notificationHelper.sendNewFavNotification(
+					NotificationContent(
+						description = desc,
+					),
+					intent
+				)
+			}
 
 		}
 		when {

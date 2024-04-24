@@ -15,14 +15,18 @@ import com.kevinvi.common.utils.IdFavoriteUtils
 import com.kevinvi.data.room.repository.FavRepository
 import com.kevinvi.scan.data.repository.ScanRepository
 import com.kevinvi.scan.mapper.ScanItemMapper
+import com.kevinvi.scan.ui.ScanItemDataUi
 import com.kevinvi.tome.data.repository.TomeRepository
+import com.kevinvi.tome.mapper.TomeItemMapper
 import com.kevinvi.ui.model.FavItemUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,7 +48,6 @@ class DetailViewModel @Inject constructor(
 
 	val stateData: State<DetailUiState>
 		get() = _stateData
-
 
 	fun getDetail(favItem: FavItemUi) {
 		_stateData.value = _stateData.value.copy(loading = true)
@@ -125,12 +128,35 @@ class DetailViewModel @Inject constructor(
 		_stateData.value = _stateData.value.copy(item = favItem)
 
 	}
+
+	private var _stateDataRelation = MutableStateFlow(RelationStation())
+
+	val stateDataRelation: StateFlow<RelationStation>
+		get() = _stateDataRelation
+
+	fun relations(listLinkedId: List<Pair<String, String>>?) {
+		viewModelScope.launch(Dispatchers.IO) {
+			var list = emptyList<ScanItemDataUi>()
+			listLinkedId?.forEach {
+
+				scanRepository.getMangaById(it.first).let {
+					Log.d("TAG", "search: $it")
+					list = list + ScanItemMapper.mapToUiRelation(it).items
+
+				}
+			}.let {
+				_stateDataRelation.update { it.copy(list = list) }
+			}
+		}
+	}
 }
 
 data class DetailUiState(
 	val item: FavItemUi = FavItemUi.EMPTY,
 	val loading: Boolean = true,
 	val isFav: Boolean = false,
-) {
+)
 
-}
+data class RelationStation(
+	val list: List<ScanItemDataUi> = emptyList(),
+)

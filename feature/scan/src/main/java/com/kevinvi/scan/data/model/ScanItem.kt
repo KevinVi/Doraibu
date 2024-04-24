@@ -1,5 +1,6 @@
 package com.kevinvi.scan.data.model
 
+import com.kevinvi.common.extension.empty
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -7,6 +8,13 @@ data class ScanItem(
 	val result: String,
 	val response: String,
 	val data: List<ScanData>,
+)
+
+@Serializable
+data class ScanItemSingle(
+	val result: String,
+	val response: String,
+	val data: ScanData,
 )
 
 @Serializable
@@ -41,6 +49,7 @@ data class ScanAttributesImage(
 data class ScanRelationships(
 	val id: String,
 	val type: String? = null,
+	val related: String? = String.empty,
 	val attributes: ScanAttributesImage? = null,
 )
 
