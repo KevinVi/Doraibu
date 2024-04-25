@@ -2,6 +2,7 @@ package com.kevinvi.doraibu.app.populare
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -33,7 +34,12 @@ fun PopulareScreen(
 	val populare by viewModel.stateData.collectAsStateWithLifecycle()
 	viewModel.populare()
 	if (populare.isScanLoading) {
-		Loader(true)
+		Box(
+			modifier =
+			Modifier.statusBarsPadding()
+		) {
+			Loader(true)
+		}
 	} else {
 		DisplayGrid(list = populare.list, navController = navController)
 	}
@@ -55,7 +61,9 @@ fun DisplayGrid(
 			end = Dimens.BIG_SPACING,
 			bottom = Dimens.BIG_SPACING,
 		),
-		modifier = Modifier.fillMaxSize().statusBarsPadding(),
+		modifier = Modifier
+			.fillMaxSize()
+			.statusBarsPadding(),
 	) {
 		items(
 			list,
