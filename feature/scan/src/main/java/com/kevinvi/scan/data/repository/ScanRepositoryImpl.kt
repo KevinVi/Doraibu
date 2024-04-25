@@ -15,27 +15,28 @@ import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class ScanRepositoryImpl @Inject constructor() : ScanRepository {
+	private val json = Json { ignoreUnknownKeys = true }
 	override suspend fun getMangaByName(name: String): ScanItem {
 
 		val client = HttpClient(Android)
-		val response: HttpResponse = client.get("https://api.mangadex.org/manga?title=$name&includes[]=cover_art")
+		val response: HttpResponse = client.get("https://api.mangadex.org/manga?title=$name&includes[]=cover_art&contentRating[]=safe&translatedLanguage[]=fr")
 
 		val responseBody = response.bodyAsText()
 		Log.d("TAG", "getMangaByName: $name")
-		return Json { ignoreUnknownKeys = true }.decodeFromString<ScanItem>(responseBody)
+		return json.decodeFromString<ScanItem>(responseBody)
 	}
 
 
 	override suspend fun getMangaById(id: String): ScanItemSingle {
 
 		val client = HttpClient(Android)
-		val url = "https://api.mangadex.org/manga/$id"
+		val url = "https://api.mangadex.org/manga/$id?includes[]=cover_art&contentRating[]=safe"
 		val response: HttpResponse = client.get(url)
 
 		val responseBody = response.bodyAsText()
 		Log.d("TAG", "getMangaByName: $id")
 		Log.d("TAG", "getMangaById: $url ")
-		return Json { ignoreUnknownKeys = true }.decodeFromString<ScanItemSingle>(responseBody)
+		return json.decodeFromString<ScanItemSingle>(responseBody)
 	}
 
 	override suspend fun getLastestChapter(id: String) : ScanDetailItem{
@@ -43,7 +44,16 @@ class ScanRepositoryImpl @Inject constructor() : ScanRepository {
 		val response: HttpResponse = client.get("https://api.mangadex.org/manga/$id/feed?translatedLanguage[]=fr&order[chapter]=desc&limit=1&includes[]=cover_art")
 		val responseBody = response.bodyAsText()
 		Log.d("TAG", "getLastestChapter: $responseBody")
-		return Json { ignoreUnknownKeys = true }.decodeFromString<ScanDetailItem>(responseBody)
+		return json.decodeFromString<ScanDetailItem>(responseBody)
+	}
+
+	override suspend fun getLastUpdateList(): ScanItem {
+
+		val client = HttpClient(Android)
+		val response: HttpResponse = client.get("https://api.mangadex.org/manga?includes[]=cover_art&includes[]=artist&includes[]=author&contentRating[]=safe&hasAvailableChapters=true&availableTranslatedLanguage[]=fr&limit=30")
+
+		val responseBody = response.bodyAsText()
+		return json.decodeFromString<ScanItem>(responseBody)
 	}
 
 	override fun getImage(id: String, covertArt: String) {

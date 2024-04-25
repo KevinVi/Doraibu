@@ -18,6 +18,7 @@ fun DoraibuNavHost(
 		startDestination = startScreen.route,
 		modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
 	) {
+		addPopulareRoute(navController)
 		addFavRoute(navController)
 		addSearchRoute(navController)
 		addSettingsRoute(navController)

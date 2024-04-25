@@ -81,7 +81,7 @@ fun SearchScreen(
 				onActiveChange = {
 				},
 				placeholder = {
-					Text(text = "Rechercher")
+					Text(text = "Rechercher un manga ou un anime ici !")
 				},
 				leadingIcon = {
 					Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
@@ -185,11 +185,12 @@ fun SearchScreen(
 
 			} else {
 				Text(
-					text = "Faire une recherche !",
+					text = "Recherche ici vos mangas et animes préférer afin d'être toujours à jour dans sur vos favoris ",
 					textAlign = TextAlign.Center,
 					modifier = Modifier
 						.fillMaxWidth()
 						.fillMaxHeight()
+						.padding(start = 30.dp, end = 30.dp)
 						.wrapContentHeight()
 				)
 			}

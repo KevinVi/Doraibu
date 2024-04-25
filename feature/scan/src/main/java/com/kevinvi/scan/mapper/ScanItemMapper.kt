@@ -31,8 +31,8 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 	)
 
 	fun mapToUiRelation(item: ScanItemSingle) = ScanItemUiSingle(
-		result = item.result,
-		items = mapData(item.data),
+		result = item.result?: String.empty,
+		items = mapData(item.data ?: ScanData(id = String.empty)),
 	)
 
 	private fun mapData(data: ScanData) = ScanItemDataUi(
@@ -46,6 +46,7 @@ object ScanItemMapper : MapperList<ScanItem, ScanItemUi>() {
 		lastChapter = data.attributes?.lastChapter ?: String.empty,
 		isFinished = data.attributes?.status == "completed",
 		listLinkedId = getRelations(data.relationships),
+		contentRating = data.attributes?.contentRating
 		)
 
 	private fun getDescription(desc: List<ScanDescription>?): String? {

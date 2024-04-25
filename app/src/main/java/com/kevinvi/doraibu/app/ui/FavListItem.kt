@@ -35,15 +35,16 @@ fun FavListItem(
 
 	item: FavItemUi,
 	onItemClick: (FavItemUi) -> Unit,
+	displayProgress: Boolean = true,
 ) {
 	var state by remember {
 		mutableStateOf(false)
 	}
-	Column (
+	Column(
 		modifier = Modifier
 			.padding(10.dp)
 			.width(100.dp),
-	){
+	) {
 
 		Card(
 			onClick = { onItemClick(item) },
@@ -96,11 +97,13 @@ fun FavListItem(
 			}
 
 		}
-		if (item.progression > 0 && item.lastEntry > 0) {
-			val progress = item.progression * 100 / item.lastEntry
-			ProgressBarCustom(progress)
-		} else {
-			ProgressBarCustom(0)
+		if (displayProgress) {
+			if (item.progression > 0 && item.lastEntry > 0) {
+				val progress = item.progression * 100 / item.lastEntry
+				ProgressBarCustom(progress)
+			} else {
+				ProgressBarCustom(0)
+			}
 		}
 	}
 }

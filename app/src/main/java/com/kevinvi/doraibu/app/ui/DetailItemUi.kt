@@ -44,15 +44,18 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.kevinvi.common.extension.takeIfNotNullOrBlank
 import com.kevinvi.doraibu.app.DetailViewModel
+import com.kevinvi.doraibu.app.navigation.navigateToDetails
+import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanSearchResult
 import com.kevinvi.ui.Dimens.NORMAL_SPACING
+import com.kevinvi.ui.Loader
 import com.kevinvi.ui.components.ExpandableMangaDescription
 import com.kevinvi.ui.components.RepeatingButton
 import com.kevinvi.ui.model.FavItemUi
@@ -61,10 +64,13 @@ import com.kevinvi.ui.model.FavItemUi
 fun DetailItemUi(
 	item: FavItemUi,
 	onBackClick: () -> Unit,
+	navController: NavHostController,
 ) {
 	DetailContent(
 		item = item,
-		onBackClick = onBackClick
+		onBackClick = onBackClick,
+		navController
+
 	)
 }
 
@@ -73,14 +79,17 @@ fun DetailItemUi(
 private fun DetailContent(
 	item: FavItemUi,
 	onBackClick: () -> Unit,
+	navController: NavHostController,
 	viewModel: DetailViewModel = hiltViewModel(),
 ) {
 	val itemData by viewModel.stateData
 	LaunchedEffect(key1 = Unit) {
 		viewModel.getDetail(item)
 	}
-	Box(modifier = Modifier
-		.fillMaxSize()) {
+	Box(
+		modifier = Modifier
+			.fillMaxSize()
+	) {
 
 		Column(
 			modifier = Modifier
@@ -127,9 +136,11 @@ private fun DetailContent(
 						valueRange = 0f..itemData.item.lastEntry.toFloat()
 					)
 
-					Box(modifier = Modifier
-						.fillMaxWidth()
-						.padding(start = 16.dp, end = 16.dp)) {
+					Box(
+						modifier = Modifier
+							.fillMaxWidth()
+							.padding(start = 16.dp, end = 16.dp)
+					) {
 						Text(modifier = Modifier.align(Alignment.CenterStart), text = "0")
 						Text(modifier = Modifier.align(Alignment.CenterEnd), text = itemData.item.lastEntry.toString())
 					}
@@ -154,20 +165,25 @@ private fun DetailContent(
 					val related by viewModel.stateDataRelation.collectAsStateWithLifecycle()
 					viewModel.relations(item.listLinkedId)
 					Log.d("TAG", "DetailContent: RELATED ${related.list}")
-					LazyRow(
-						modifier = Modifier
-							.fillMaxWidth(),
-						contentPadding = PaddingValues(8.dp),
-					) {
-						items(related.list) { it ->
-							// Search result
-							ScanSearchResult(
-								it,
-								onItemClick = {
-									Log.d("TAG", "MainScreen: data $it")
-									//navController.navigateToDetails(AnimeItemMapper.mapToDetail(it))
-								}
-							)
+					if (related.loading) {
+						Loader(true)
+					} else {
+						Loader(false)
+						LazyRow(
+							modifier = Modifier
+								.fillMaxWidth(),
+							contentPadding = PaddingValues(8.dp),
+						) {
+							items(related.list) { it ->
+								// Search result
+								ScanSearchResult(
+									it,
+									onItemClick = {
+										Log.d("TAG", "MainScreen: data $it")
+										navController.navigateToDetails(ScanItemMapper.mapToDetail(it))
+									}
+								)
+							}
 						}
 					}
 				}
@@ -176,12 +192,12 @@ private fun DetailContent(
 		}
 		TopAppBar(
 			modifier = Modifier.background(
-			Brush.linearGradient(
-				0.0f to Color.Black.copy(0.6f),
-				1.0f to  Color.Transparent,
-				start = Offset(0.0f, 210.0f),
-				end = Offset(0.0f, 300.0f)
-			)
+				Brush.linearGradient(
+					0.0f to Color.Black.copy(0.6f),
+					1.0f to Color.Transparent,
+					start = Offset(0.0f, 210.0f),
+					end = Offset(0.0f, 300.0f)
+				)
 			),
 			title = {
 				itemData.item.title?.let {
@@ -228,23 +244,5 @@ private fun DetailContent(
 			},
 		)
 
-
 	}
-}
-
-@Preview
-@Composable
-fun DetailItemComposable() {
-
-	DetailContent(
-		FavItemUi(
-			id = "10",
-			title = "One piece",
-			description = "un mec qui a un équipage et qui veut devenir roi des pirates",
-			createdAt = "date 1 ",
-			updatedAt = "data 2 ",
-			imageUrl = "https://uploads.mangadex.org/covers/68112dc1-2b80-4f20-beb8-2f2a8716a430/c3f43d5a-83c4-44bd-a117-b247019329b2.jpg",
-		),
-		onBackClick = {},
-	)
 }

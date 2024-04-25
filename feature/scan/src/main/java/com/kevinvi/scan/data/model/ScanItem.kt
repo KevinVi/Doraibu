@@ -12,9 +12,9 @@ data class ScanItem(
 
 @Serializable
 data class ScanItemSingle(
-	val result: String,
-	val response: String,
-	val data: ScanData,
+	val result: String?=String.empty,
+	val response: String?=String.empty,
+	val data: ScanData?= ScanData(id=String.empty),
 )
 
 @Serializable
@@ -38,6 +38,7 @@ data class ScanAttributes(
 	val status: String? = null,
 	val lastVolume: String? = null,
 	val lastChapter: String? = null,
+	val contentRating: String? = null,
 )
 
 @Serializable

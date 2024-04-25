@@ -51,9 +51,7 @@ fun NavController.navigateToDetails(item: FavItemUi) {
 	Log.d("TAG", "navigateToDetails: $json")
 	navigate(
 		"$SEARCH_DETAIL_SCAN_ROUTE/${URLEncoder.encode(json.toString(), URL_ENCODING)}",
-	) {
-		launchSingleTop = true
-	}
+	)
 }
 
 fun NavGraphBuilder.addSearchRoute(navController: NavHostController) {
@@ -79,6 +77,7 @@ fun NavGraphBuilder.addSearchRoute(navController: NavHostController) {
 				onBackClick = {
 					navController.navigateUp()
 				},
+				navController
 			)
 		}
 	}

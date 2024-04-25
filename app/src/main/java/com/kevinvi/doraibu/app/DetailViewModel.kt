@@ -138,15 +138,17 @@ class DetailViewModel @Inject constructor(
 		viewModelScope.launch(Dispatchers.IO) {
 			var list = emptyList<ScanItemDataUi>()
 			listLinkedId?.forEach {
-
-				scanRepository.getMangaById(it.first).let {
-					Log.d("TAG", "search: $it")
-					list = list + ScanItemMapper.mapToUiRelation(it).items
-
+				if (list.size < 5) {
+					scanRepository.getMangaById(it.first).let {
+						Log.d("TAG", "search: $it")
+						val data = ScanItemMapper.mapToUiRelation(it).items
+						if (data.contentRating == "safe"){
+							list = list + ScanItemMapper.mapToUiRelation(it).items
+						}
+					}
 				}
-			}.let {
-				_stateDataRelation.update { it.copy(list = list) }
 			}
+			_stateDataRelation.update { it.copy(list = list, loading = false) }
 		}
 	}
 }
@@ -158,5 +160,6 @@ data class DetailUiState(
 )
 
 data class RelationStation(
+	val loading: Boolean = true,
 	val list: List<ScanItemDataUi> = emptyList(),
 )

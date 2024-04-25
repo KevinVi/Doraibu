@@ -10,6 +10,7 @@ interface ScanRepository {
 	suspend fun getMangaById(id:String): ScanItemSingle
 
 	suspend fun getLastestChapter(id: String): ScanDetailItem
+	suspend fun getLastUpdateList(): ScanItem
 
 	fun getImage(id:String, covertArt: String)
 }

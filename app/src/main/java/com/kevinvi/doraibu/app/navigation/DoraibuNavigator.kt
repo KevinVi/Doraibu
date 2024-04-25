@@ -9,6 +9,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.kevinvi.doraibu.app.navigation.BottomNavigationScreen.Home
+import com.kevinvi.doraibu.app.navigation.BottomNavigationScreen.Populare
 import com.kevinvi.doraibu.app.navigation.BottomNavigationScreen.Search
 import com.kevinvi.doraibu.app.navigation.BottomNavigationScreen.Settings
 
@@ -27,6 +28,7 @@ class DoraibuNavigator(
 
     val currentScreen: BottomNavigationScreen
         @Composable get() = when (currentDestination?.route) {
+            Populare.route -> Populare
             Home.route -> Home
             Search.route -> Search
             Settings.route -> Settings
@@ -48,6 +50,7 @@ class DoraibuNavigator(
         }
 
         when (screen) {
+            Populare -> navController.navigateToPopulare(navOptions)
             Home -> navController.navigateToFav(navOptions)
             Search -> navController.navigateToSearch(navOptions)
             Settings -> navController.navigateToSettings(navOptions)
@@ -55,7 +58,7 @@ class DoraibuNavigator(
     }
 
     companion object {
-        val destinations = listOf(Home, Search, Settings)
+        val destinations = listOf(Populare, Home, Search, Settings)
 
         /*Settings*/
         val startScreen = destinations.first()

@@ -76,6 +76,7 @@ fun NavGraphBuilder.addFavRoute(navController: NavHostController) {
 					onBackClick = {
 						navController.navigateUp()
 					},
+					navController,
 				)
 			}
 		}

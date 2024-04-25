@@ -49,7 +49,8 @@ data class ScanItemDataUi(
 	val image: String?,
 	val lastChapter: String? = String.empty,
 	val isFinished: Boolean ,
-	val listLinkedId: List<Pair<String,String>>
+	val listLinkedId: List<Pair<String,String>>,
+	val contentRating: String?
 ) : UiModel, Parcelable {
 
 	companion object {
@@ -63,7 +64,8 @@ data class ScanItemDataUi(
 			image = null,
 			lastChapter  = "",
 			isFinished = false,
-			listLinkedId = emptyList()
+			listLinkedId = emptyList(),
+			contentRating = String.empty
 		)
 	}
 }
