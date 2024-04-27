@@ -54,9 +54,11 @@ dependencies {
 	implementation(libs.coil.compose)
 	implementation(libs.coil.svg)
 
-
 	// Ktor
 	implementation(libs.bundles.ktor)
+
+	// Apollo
+	implementation(libs.apollo.runtime)
 
 
 	// Worker
