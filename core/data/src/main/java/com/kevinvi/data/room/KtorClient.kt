@@ -24,7 +24,7 @@ object KtorClient {
 
 		// For Logging
 		install(Logging) {
-			level = LogLevel.ALL
+			level = LogLevel.HEADERS
 		}
 
 		// Timeout plugin
@@ -49,6 +49,8 @@ object KtorClient {
 		// Default request for POST, PUT, DELETE,etc...
 		install(DefaultRequest) {
 			header(HttpHeaders.ContentType, ContentType.Application.Json)
+			header(HttpHeaders.CacheControl, "max-age=60")
+
 			//add this accept() for accept Json Body or Raw Json as Request Body
 			accept(ContentType.Application.Json)
 		}

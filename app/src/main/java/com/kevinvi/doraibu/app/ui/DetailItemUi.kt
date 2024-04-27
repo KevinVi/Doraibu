@@ -125,9 +125,11 @@ private fun DetailContent(
 						value = sliderPosition,
 						onValueChange = {
 							sliderPosition = it
-							viewModel.saveFav(
-								itemData.item
-							)
+							if (!itemData.isFav) {
+								viewModel.saveFav(
+									itemData.item
+								)
+							}
 							viewModel.saveProgression(itemData.item.id, it.toInt())
 						},
 						colors = SliderDefaults.colors(
