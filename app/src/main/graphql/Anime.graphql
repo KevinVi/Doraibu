@@ -1,4 +1,4 @@
-query ($page: Int = 1, $id: Int, $type: MediaType, $search: String, $format: [MediaFormat], $status: MediaStatus, $season: MediaSeason, $year: String, $yearLesser: FuzzyDateInt, $yearGreater: FuzzyDateInt, $episodeLesser: Int, $episodeGreater: Int, $genres: [String], $excludedGenres: [String], $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]) {
+query Anime($page: Int = 1, $id: Int, $type: MediaType, $search: String, $format: [MediaFormat], $status: MediaStatus, $season: MediaSeason, $year: String, $yearLesser: FuzzyDateInt, $yearGreater: FuzzyDateInt, $episodeLesser: Int, $episodeGreater: Int, $genres: [String], $excludedGenres: [String], $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]) {
     Page(page: $page, perPage: 5) {
         media(id: $id, type: $type, season: $season, format_in: $format, status: $status, search: $search, startDate_like: $year, startDate_lesser: $yearLesser, startDate_greater: $yearGreater, episodes_lesser: $episodeLesser, episodes_greater: $episodeGreater, genre_in: $genres, genre_not_in: $excludedGenres, sort: $sort) {
             id
