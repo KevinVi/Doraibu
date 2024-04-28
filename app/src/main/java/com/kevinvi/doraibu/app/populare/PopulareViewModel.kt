@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kevinvi.common.extension.launchIO
 import com.kevinvi.data.room.repository.FavRepository
+import com.kevinvi.doraibu.app.graphql.repository.GraphRepository
 import com.kevinvi.scan.data.repository.ScanRepository
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanItemDataUi
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PopulareViewModel @Inject constructor(
 	val scanRepository: ScanRepository,
+	val graph:GraphRepository
 ) : ViewModel() {
 
 	private var _stateData = MutableStateFlow(ScanListUiState())
@@ -36,6 +38,14 @@ class PopulareViewModel @Inject constructor(
 				_stateData.update { it.copy(list = result, isScanLoading = false) }
 			}
 
+		}
+	}
+
+	fun graph(){
+		viewModelScope.launch(Dispatchers.IO){
+			graph.getAnime().let {
+				Log.d("TAG", "graph: $it")
+			}
 		}
 	}
 

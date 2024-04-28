@@ -7,6 +7,7 @@ plugins {
 	id("kotlin-parcelize")
 
 	kotlin("plugin.serialization") version libs.versions.kotlin.get()
+	id("com.apollographql.apollo3").version("3.8.3")
 }
 
 android {
@@ -29,6 +30,14 @@ android {
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 		}
 	}
+
+	apollo {
+		service("service") {
+			packageName.set("com.kevinvi.doraibu")
+		}
+	}
+
+
 	compileOptions {
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17

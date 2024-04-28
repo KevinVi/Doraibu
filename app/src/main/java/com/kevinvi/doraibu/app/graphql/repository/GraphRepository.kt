@@ -5,5 +5,5 @@ import com.kevinvi.doraibu.app.graphql.model.Media
 
 interface GraphRepository {
 
-	fun getAnime() : List<Media>
+	suspend fun getAnime() : List<Media>
 }
