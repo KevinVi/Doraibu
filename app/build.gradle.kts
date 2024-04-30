@@ -7,7 +7,7 @@ plugins {
 	id("kotlin-parcelize")
 
 	kotlin("plugin.serialization") version libs.versions.kotlin.get()
-	id("com.apollographql.apollo3").version("3.8.3")
+	id("com.apollographql.apollo3").version(libs.versions.apollo)
 }
 
 android {

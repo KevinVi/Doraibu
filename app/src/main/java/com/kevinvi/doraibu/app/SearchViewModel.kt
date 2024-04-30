@@ -9,6 +9,8 @@ import com.kevinvi.anime.ui.AnimeItemUi
 import com.kevinvi.common.extension.launchIO
 import com.kevinvi.ui.model.FavItemUi
 import com.kevinvi.data.room.repository.FavRepository
+import com.kevinvi.doraibu.app.graphql.model.Media
+import com.kevinvi.doraibu.app.graphql.repository.GraphRepository
 import com.kevinvi.scan.data.repository.ScanRepository
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanItemDataUi
@@ -28,7 +30,8 @@ class SearchViewModel @Inject constructor(
 	val scanRepository: ScanRepository,
 	val animeRepository: AnimeRepository,
 	val tomeRepository: TomeRepository,
-	val favRepository: FavRepository
+	val favRepository: FavRepository,
+	val graph: GraphRepository
 	) : ViewModel() {
 
 	private var _stateData = MutableStateFlow(ScanListUiState())
@@ -55,6 +58,11 @@ class SearchViewModel @Inject constructor(
 			}
 			_stateData.update { it.copy(isAnimeLoading = false) }
 
+			graph.getAnime(data).let {list ->
+				_stateData.update { it.copy(listAnime2 = list) }
+			}
+			_stateData.update { it.copy(isAnime2Loading = false) }
+
 			tomeRepository.getTomeByName(data).let {
 
 				Log.d("TAG", "search: $it")
@@ -76,14 +84,17 @@ class SearchViewModel @Inject constructor(
 	}
 
 
+
 }
 
 data class ScanListUiState(
 	val list: List<ScanItemDataUi> = emptyList(),
 	val listAnime: List<AnimeItemUi> = emptyList(),
+	val listAnime2: List<Media> = emptyList(),
 	val listTome: List<TomeItemUi> = emptyList(),
 	val isScanLoading: Boolean = true,
 	val isAnimeLoading: Boolean = true,
+	val isAnime2Loading: Boolean = true,
 	val isTomeLoading: Boolean = true,
 	) {
 

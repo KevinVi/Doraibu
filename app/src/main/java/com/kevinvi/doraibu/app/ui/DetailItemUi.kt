@@ -1,5 +1,6 @@
 package com.kevinvi.doraibu.app.ui
 
+import android.text.Html
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -112,7 +113,7 @@ private fun DetailContent(
 			}
 
 			itemData.item.description.takeIfNotNullOrBlank()?.let {
-				ExpandableMangaDescription(false, it)
+				ExpandableMangaDescription(false, Html.fromHtml(it, Html.FROM_HTML_MODE_COMPACT).toString())
 			}
 
 			var sliderPosition by remember(itemData.item.progression) { mutableFloatStateOf(itemData.item.progression.toFloat()) }

@@ -38,6 +38,8 @@ import androidx.navigation.compose.rememberNavController
 import com.kevinvi.anime.mapper.AnimeItemMapper
 import com.kevinvi.anime.ui.AnimeSearchResult
 import com.kevinvi.doraibu.app.SearchViewModel
+import com.kevinvi.doraibu.app.graphql.mapper.MediaMapper
+import com.kevinvi.doraibu.app.graphql.ui.GraphSearchResult
 import com.kevinvi.doraibu.app.navigation.navigateToDetails
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanSearchResult
@@ -150,6 +152,34 @@ fun SearchScreen(
 									onItemClick = {
 										Log.d("TAG", "MainScreen: data $it")
 										navController.navigateToDetails(AnimeItemMapper.mapToDetail(it))
+									}
+								)
+							}
+						}
+					}
+				}
+
+				Text(text = "Anime Anilist ", modifier = Modifier.padding(start = 20.dp))
+				if (search.isAnime2Loading && searchLauched) {
+					Loader(true)
+				} else {
+					Loader(false)
+					if (search.listAnime2.isEmpty()) {
+						Empty(true)
+					} else {
+						Empty(false)
+						LazyRow(
+							modifier = Modifier
+								.fillMaxWidth(),
+							contentPadding = PaddingValues(8.dp),
+						) {
+							items(search.listAnime2) { it ->
+								// Search result
+								GraphSearchResult(
+									it,
+									onItemClick = {
+										Log.d("TAG", "MainScreen anilist data: data $it")
+										navController.navigateToDetails(MediaMapper.mapToDetail(it))
 									}
 								)
 							}

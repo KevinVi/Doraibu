@@ -16,7 +16,7 @@ data class Page(
 
 data class Media(
 	val id: Int,
-	val title: String,
+	val title: List<String?>,
 	val coverImage: CoverImage,
 	val startDate: String,
 	val endDate: String,
@@ -27,9 +27,11 @@ data class Media(
 	val type: String,
 	val format: String,
 	val status: String,
-	val episodes: Int?,
+	val episodes: Int? = 0,
 	val genres: List<String?>,
 	val nextAiringEpisode: NextAiringEpisode?,
+	val relations: List<Media>?,
+	val recommendations: List<Media>?
 )
 
 data class Title(

@@ -21,7 +21,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PopulareViewModel @Inject constructor(
 	val scanRepository: ScanRepository,
-	val graph:GraphRepository
 ) : ViewModel() {
 
 	private var _stateData = MutableStateFlow(ScanListUiState())
@@ -41,13 +40,7 @@ class PopulareViewModel @Inject constructor(
 		}
 	}
 
-	fun graph(){
-		viewModelScope.launch(Dispatchers.IO){
-			graph.getAnime().let {
-				Log.d("TAG", "graph: $it")
-			}
-		}
-	}
+
 
 
 }

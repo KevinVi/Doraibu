@@ -21,7 +21,7 @@ object AnimeItemMapper : MapperList<AnimeItem, AnimeContainer>() {
 	}
 
 	fun mapToDetail(animeItem: AnimeItemUi) = FavItemUi(
-		id = IdFavoriteUtils().buildId(animeItem.id.toString(), TypeUi.SCAN.name),
+		id = IdFavoriteUtils().buildId(animeItem.id.toString(), TypeUi.ANIME.name),
 		type = TypeUi.ANIME.name,
 		title = animeItem.title,
 		description = animeItem.description,

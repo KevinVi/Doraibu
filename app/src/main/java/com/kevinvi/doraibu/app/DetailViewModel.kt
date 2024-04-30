@@ -13,6 +13,7 @@ import com.kevinvi.common.TypeUi
 import com.kevinvi.common.extension.launchIO
 import com.kevinvi.common.utils.IdFavoriteUtils
 import com.kevinvi.data.room.repository.FavRepository
+import com.kevinvi.doraibu.app.graphql.repository.GraphRepository
 import com.kevinvi.scan.data.repository.ScanRepository
 import com.kevinvi.scan.mapper.ScanItemMapper
 import com.kevinvi.scan.ui.ScanItemDataUi
@@ -45,6 +46,8 @@ class DetailViewModel @Inject constructor(
 			false
 		),
 	)
+
+
 
 	val stateData: State<DetailUiState>
 		get() = _stateData
@@ -90,6 +93,12 @@ class DetailViewModel @Inject constructor(
 							setupLastAnimeEpisode(favItem, it)
 						}
 					}
+				}
+
+				TypeUi.ANIME2.name -> {
+					//call anime
+					Log.d("TAG", "getDetail: coucou anime 2 ")
+					_stateData.value = _stateData.value.copy(item = favItem)
 				}
 
 				TypeUi.TOME.name -> {

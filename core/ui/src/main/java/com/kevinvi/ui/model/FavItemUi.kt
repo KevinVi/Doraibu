@@ -30,7 +30,9 @@ data class FavItemUi(
 	var isFinished: Boolean = false,
 	var isFav: Boolean = false,
 	var linked: String? = String.empty,
-	val listLinkedId: List<Pair<String,String>>? = emptyList()
+	val listLinkedId: List<Pair<String,String>>? = emptyList(),
+	val linkedAnimeRelations: List<FavItemUi>? = emptyList(),
+	val linkedAnimeRecommendations: List<FavItemUi>? = emptyList(),
 ) : UiModel, Parcelable {
 	companion object {
 		val EMPTY = FavItemUi(

@@ -1,38 +1,65 @@
-query Anime($page: Int = 1, $id: Int, $type: MediaType, $search: String, $format: [MediaFormat], $status: MediaStatus, $season: MediaSeason, $year: String, $yearLesser: FuzzyDateInt, $yearGreater: FuzzyDateInt, $episodeLesser: Int, $episodeGreater: Int, $genres: [String], $excludedGenres: [String], $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC]) {
-    Page(page: $page, perPage: 5) {
-        media(id: $id, type: $type, season: $season, format_in: $format, status: $status, search: $search, startDate_like: $year, startDate_lesser: $yearLesser, startDate_greater: $yearGreater, episodes_lesser: $episodeLesser, episodes_greater: $episodeGreater, genre_in: $genres, genre_not_in: $excludedGenres, sort: $sort) {
-            id
-            title {
-                userPreferred
+query Anime($page: Int = 1, $id: Int, $type: MediaType = ANIME, $search: String!, $sort: [MediaSort] = [POPULARITY_DESC, SCORE_DESC, SEARCH_MATCH]) {
+    Page(page: $page, perPage: 10) {
+        media(id: $id, type: $type, search: $search, sort: $sort) {
+            ...itemFragment
+            relations {
+                edges {
+                    id
+                    relationType
+                    node {
+                        ...itemFragment
+                    }
+                }
             }
-            coverImage {
-                extraLarge
-                large
-                color
-            }
-            startDate {
-                year
-                month
-                day
-            }
-            endDate {
-                year
-                month
-                day
-            }
-            bannerImage
-            season
-            description
-            type
-            format
-            status
-            episodes
-            genres
-            nextAiringEpisode {
-                airingAt
-                timeUntilAiring
-                episode
+            recommendations(perPage: 7, sort: [RATING_DESC, ID]) {
+                nodes {
+                    id
+                    rating
+                    userRating
+                    mediaRecommendation {
+                        ...itemFragment
+                    }
+                }
             }
         }
+    }
+}
+
+fragment itemFragment on Media {
+    id
+    title {
+        userPreferred
+        romaji
+        english
+        native
+    }
+    coverImage {
+        extraLarge
+        large
+        color
+    }
+    startDate {
+        year
+        month
+        day
+    }
+    endDate {
+        year
+        month
+        day
+    }
+    bannerImage
+    season
+    seasonYear
+    description
+    type
+    format
+    status
+    episodes
+    genres
+    nextAiringEpisode {
+        airingAt
+        timeUntilAiring
+        episode
     }
 }
