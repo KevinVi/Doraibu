@@ -168,27 +168,69 @@ private fun DetailContent(
 						}
 					}
 
-					val related by viewModel.stateDataRelation.collectAsStateWithLifecycle()
-					viewModel.relations(item.listLinkedId)
-					Log.d("TAG", "DetailContent: RELATED ${related.list}")
-					if (related.loading) {
-						Loader(true)
-					} else {
-						Loader(false)
+					if (!item.linkedAnimeRecommendations.isNullOrEmpty()) {
+						Text("Recommendations")
 						LazyRow(
 							modifier = Modifier
 								.fillMaxWidth(),
 							contentPadding = PaddingValues(8.dp),
 						) {
-							items(related.list) { it ->
+							items(item.linkedAnimeRecommendations!!) { it ->
 								// Search result
-								ScanSearchResult(
+								FavListItem(
 									it,
 									onItemClick = {
 										Log.d("TAG", "MainScreen: data $it")
-										navController.navigateToDetails(ScanItemMapper.mapToDetail(it))
-									}
+										navController.navigateToDetails(it)
+									},
+									false
 								)
+							}
+						}
+					}
+					if (!item.linkedAnimeRelations.isNullOrEmpty()) {
+						Text("Relations")
+						LazyRow(
+							modifier = Modifier
+								.fillMaxWidth(),
+							contentPadding = PaddingValues(8.dp),
+						) {
+							items(item.linkedAnimeRecommendations!!) { it ->
+								// Search result
+								FavListItem(
+									it,
+									onItemClick = {
+										Log.d("TAG", "MainScreen: data $it")
+										navController.navigateToDetails(it)
+									},
+									false
+								)
+							}
+						}
+					}
+					if (item.listLinkedId?.isNotEmpty() == true) {
+						val related by viewModel.stateDataRelation.collectAsStateWithLifecycle()
+						viewModel.relations(item.listLinkedId)
+						Log.d("TAG", "DetailContent: RELATED ${related.list}")
+						if (related.loading) {
+							Loader(true)
+						} else {
+							Loader(false)
+							LazyRow(
+								modifier = Modifier
+									.fillMaxWidth(),
+								contentPadding = PaddingValues(8.dp),
+							) {
+								items(related.list) { it ->
+									// Search result
+									ScanSearchResult(
+										it,
+										onItemClick = {
+											Log.d("TAG", "MainScreen: data $it")
+											navController.navigateToDetails(ScanItemMapper.mapToDetail(it))
+										}
+									)
+								}
 							}
 						}
 					}

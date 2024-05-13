@@ -73,6 +73,7 @@ object MediaMapper {
 	fun mapToDetail(animeItem: Media): FavItemUi {
 
 		Log.d("MediaMapper", "mapToDetail: $animeItem")
+		
 		return FavItemUi(
 			id = IdFavoriteUtils().buildId(animeItem.id.toString(), TypeUi.SCAN.name),
 			type = TypeUi.ANIME2.name,
@@ -80,8 +81,8 @@ object MediaMapper {
 			description = animeItem.description,
 			lastEntry = getEpisode(animeItem.nextAiringEpisode, animeItem.episodes ?: 0),
 			imageUrl = animeItem.coverImage.extraLarge,
-			linkedAnimeRecommendations = animeItem.recommendations?.map { media -> mapToDetail(media) },
-			linkedAnimeRelations = animeItem.relations?.map { media -> mapToDetail(media) }
+			//linkedAnimeRecommendations = animeItem.recommendations?.map { media -> mapToDetail(media) },
+			//linkedAnimeRelations = animeItem.relations?.map { media -> mapToDetail(media) }
 		)
 	}
 
